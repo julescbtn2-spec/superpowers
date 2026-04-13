@@ -357,6 +357,8 @@ def run_once() -> None:
     bottom_score = compute_bottom_score(metrics)
     state["CHECKMATE_SCORE"] = bottom_score
 
+    log.info(f"BTC ${price:,.0f} | ACTIVE={state['ACTIVE']} | DCA_COUNT={state['DCA_COUNT']} | Bottom Score={bottom_score}")
+
     # Désactivation
     if state["ACTIVE"] and should_deactivate(state, bottom_score):
         state["ACTIVE"] = False
