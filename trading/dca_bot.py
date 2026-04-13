@@ -38,7 +38,8 @@ _raw       = os.environ.get("COINBASE_API_SECRET", "")
 API_SECRET = _raw.replace("\\n", "\n")
 BASE_URL   = "https://api.coinbase.com"
 STATE_FILE = Path(__file__).parent / "state.json"
-DCA_AMOUNT = "4.00"    # USD par achat (portefeuille 110€ / 30 achats max)
+DCA_AMOUNT    = "4.00"    # USD par achat (portefeuille 110€ / 30 achats max)
+ALWAYS_ACTIVE = True      # True = DCA permanent sans condition d'activation
 
 logging.basicConfig(
     level=logging.INFO,
@@ -357,21 +358,26 @@ def run_once() -> None:
     bottom_score = compute_bottom_score(metrics)
     state["CHECKMATE_SCORE"] = bottom_score
 
+    # Mode toujours actif : ignore les conditions d'activation/désactivation
+    if ALWAYS_ACTIVE:
+        state["ACTIVE"] = True
+
     log.info(f"BTC ${price:,.0f} | ACTIVE={state['ACTIVE']} | DCA_COUNT={state['DCA_COUNT']} | Bottom Score={bottom_score}")
 
-    # Désactivation
-    if state["ACTIVE"] and should_deactivate(state, bottom_score):
-        state["ACTIVE"] = False
-        save_state(state)
-        return
+    if not ALWAYS_ACTIVE:
+        # Désactivation
+        if state["ACTIVE"] and should_deactivate(state, bottom_score):
+            state["ACTIVE"] = False
+            save_state(state)
+            return
 
-    # Activation
-    if not state["ACTIVE"] and should_activate(price, state, metrics):
-        state["ACTIVE"]           = True
-        state["ACTIVATION_PRICE"] = price
-        save_state(state)
+        # Activation
+        if not state["ACTIVE"] and should_activate(price, state, metrics):
+            state["ACTIVE"]           = True
+            state["ACTIVATION_PRICE"] = price
+            save_state(state)
 
-    # Achats DCA
+    # Achats DCA (toujours exécutés si ACTIVE)
     if state["ACTIVE"] and should_buy(state, price):
         state = execute_dca_buy(state, price, bottom_score)
 
