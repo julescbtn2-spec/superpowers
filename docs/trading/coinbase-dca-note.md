@@ -101,6 +101,51 @@ Score composite sur ~12 points. Désactivation si total **≥ 7**.
 
 ---
 
+## Configuration API Coinbase
+
+### Prérequis
+1. Compte Coinbase vérifié (KYC validé)
+2. Dépôt USD disponible sur le compte
+
+### Créer une clé API
+1. Connexion sur **coinbase.com**
+2. **Paramètres → API → Nouvelle clé API**
+3. Permissions requises : `trade` + `view`
+4. Conserver la **clé** (`API_KEY`) et le **secret** (`API_SECRET`) — affichés une seule fois
+
+### Variables d'environnement
+```bash
+export COINBASE_API_KEY="organizations/xxx/apiKeys/yyy"
+export COINBASE_API_SECRET="-----BEGIN EC PRIVATE KEY-----\n...\n-----END EC PRIVATE KEY-----"
+```
+
+### Endpoints utilisés
+
+| Action                  | Méthode | Endpoint                                          |
+|------------------------|---------|--------------------------------------------------|
+| Prix spot BTC/USD       | GET     | `/api/v3/brokerage/products/BTC-USD/ticker`      |
+| Passer un ordre marché  | POST    | `/api/v3/brokerage/orders`                       |
+| Vérifier connectivité   | GET     | `/api/v3/brokerage/accounts`                     |
+
+### Payload d'un ordre DCA ($20)
+```json
+{
+  "client_order_id": "dca-{COUNT}-{TIMESTAMP}",
+  "product_id": "BTC-USD",
+  "side": "BUY",
+  "order_configuration": {
+    "market_market_ioc": {
+      "quote_size": "20.00"
+    }
+  }
+}
+```
+
+### Fichier de configuration du bot
+Voir `trading/dca_bot.py` pour l'implémentation complète.
+
+---
+
 ## Historique des transactions
 
 | # | Date | Prix (USD) | Montant ($) | BTC acheté | Checkmate Score |
