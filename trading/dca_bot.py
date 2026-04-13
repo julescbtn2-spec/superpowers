@@ -8,6 +8,7 @@ Prérequis :
 
 import json
 import os
+import sys
 import time
 import uuid
 import logging
@@ -40,6 +41,8 @@ BASE_URL   = "https://api.coinbase.com"
 STATE_FILE = Path(__file__).parent / "state.json"
 DCA_AMOUNT    = "4.00"    # USD par achat (portefeuille 110€ / 30 achats max)
 ALWAYS_ACTIVE = False     # True = DCA permanent sans condition d'activation
+MAX_RETRIES   = 3         # Tentatives Coinbase avant HALT
+DATA_TTL      = 14400     # Secondes avant de considérer les données comme périmées (4h)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -60,12 +63,18 @@ DEFAULT_STATE = {
     "TOTAL_DCA_BTC":    0.0,
     "DCA_COUNT":        0,
     "CHECKMATE_SCORE":  0.0,
+    "LAST_DATA_TS":     None,
+    "RETRY_COUNT":      0,
 }
 
 
 def load_state() -> dict:
     if STATE_FILE.exists():
-        return json.loads(STATE_FILE.read_text())
+        s = json.loads(STATE_FILE.read_text())
+        # Assurer la compatibilité avec les nouveaux champs
+        for k, v in DEFAULT_STATE.items():
+            s.setdefault(k, v)
+        return s
     return DEFAULT_STATE.copy()
 
 
@@ -78,7 +87,6 @@ def save_state(state: dict) -> None:
 # ---------------------------------------------------------------------------
 
 def _coinbase_headers(method: str, path: str, body: str = "") -> dict:
-    # S'assurer que la clé PEM se termine par un saut de ligne
     pem = API_SECRET if API_SECRET.endswith("\n") else API_SECRET + "\n"
     now = int(time.time())
     token = jwt.encode(
@@ -115,31 +123,55 @@ def _post(path: str, payload: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Vérification des dépendances
+# Vérification des dépendances (avec protection staleness et retry)
 # ---------------------------------------------------------------------------
 
-def coinbase_api_ok() -> bool:
-    try:
-        _get("/api/v3/brokerage/accounts")
-        return True
-    except requests.HTTPError as e:
-        log.warning(f"⚠️ Coinbase API HTTP {e.response.status_code}: {e.response.text[:300]}")
-        return False
-    except Exception as e:
-        log.warning(f"⚠️ Coinbase API issue: {e}")
-        return False
+def check_coinbase(state: dict) -> bool:
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            _get("/api/v3/brokerage/accounts")
+            state["RETRY_COUNT"] = 0
+            return True
+        except requests.HTTPError as e:
+            log.warning(f"⚠️ Coinbase HTTP {e.response.status_code}: {e.response.text[:200]}")
+        except Exception as e:
+            log.warning(f"⚠️ Coinbase API issue: {e}")
+
+        state["RETRY_COUNT"] = state.get("RETRY_COUNT", 0) + 1
+        if state["RETRY_COUNT"] >= MAX_RETRIES:
+            log.error("🛑 HALT — Coinbase unreachable après 3 tentatives")
+            save_state(state)
+            sys.exit(1)
+
+        wait = 60 * attempt
+        log.warning(f"Retry {attempt}/{MAX_RETRIES} — attente {wait}s")
+        time.sleep(wait)
+
+    return False
 
 
-def checkonchain_reachable() -> bool:
+def check_onchain_sources(state: dict) -> bool:
+    """Vérifie checkonchain.com avec protection anti-données périmées."""
     try:
         r = requests.get("https://checkonchain.com", timeout=5)
-        return r.status_code < 500
+        if r.status_code < 500:
+            state["LAST_DATA_TS"] = int(time.time())
+            return True
     except Exception:
-        log.warning("⚠️ checkonchain.com down - using last metrics")
-        return False
+        pass
+
+    # Source indisponible — vérifier la fraîcheur du cache
+    last_ts = state.get("LAST_DATA_TS")
+    if last_ts and (int(time.time()) - last_ts) > DATA_TTL:
+        log.error("🛑 PAUSE — Données on-chain périmées (>4h)")
+        save_state(state)
+        sys.exit(1)
+
+    log.warning("⚠️ checkonchain.com down - using cached Checkmate metrics")
+    return False
 
 
-def newhedge_reachable() -> bool:
+def check_newhedge() -> bool:
     try:
         r = requests.get("https://newhedge.io", timeout=5)
         return r.status_code < 500
@@ -158,23 +190,14 @@ def get_btc_price() -> float:
 
 
 def get_90d_high(price: float) -> float:
-    """
-    Retourne le plus haut sur 90 jours.
-    Remplacer par un appel à l'historique Coinbase ou une source externe.
-    Valeur approchée : utilise le prix actuel comme plancher de sécurité.
-    """
     # TODO: implémenter via GET /api/v3/brokerage/products/BTC-USD/candles
     return price
 
 
 def get_fair_value() -> float:
-    """
-    Fair Value BTC selon le Power Law (newhedge.io).
-    Remplacer par un appel API réel ou un calcul local de secours.
-    """
-    # Formule Power Law approximative (à calibrer)
-    days_since_genesis = (datetime.now(timezone.utc) - datetime(2009, 1, 3, tzinfo=timezone.utc)).days
-    return 10 ** (5.84 * (days_since_genesis / 365.25) ** 0.402 - 17.01)
+    """Fair Value BTC selon le Power Law (fallback local si newhedge.io down)."""
+    days = (datetime.now(timezone.utc) - datetime(2009, 1, 3, tzinfo=timezone.utc)).days
+    return 10 ** (5.84 * (days / 365.25) ** 0.402 - 17.01)
 
 
 # ---------------------------------------------------------------------------
@@ -183,31 +206,21 @@ def get_fair_value() -> float:
 # ---------------------------------------------------------------------------
 
 def fetch_onchain_metrics() -> dict:
-    """
-    Retourne un dictionnaire des métriques on-chain.
-    Toutes les valeurs sont des approximations par défaut.
-    Brancher ici l'API checkonchain.com.
-    """
     return {
-        "realized_losses_usd":      0,      # USD/jour
-        "spot_price":               0,      # USD
-        "sth_cost_basis":           0,      # USD
-        "seller_exhaustion":        1.0,    # ratio
-        "mvrv_z_score":             0.0,
-        "exchange_balance_change":  0,      # BTC (négatif = sortie)
-        "urpd_node_break":          False,
-        "supply_in_loss_pct":       0.0,    # %
-        "lth_spending_pct":         0.0,    # %
-        "nupl":                     0.0,
-        "lth_nupl":                 0.0,
+        "realized_losses_usd":     0,
+        "spot_price":              0,
+        "sth_cost_basis":          0,
+        "seller_exhaustion":       1.0,
+        "mvrv_z_score":            0.0,
+        "exchange_balance_change": 0,
+        "urpd_node_break":         False,
+        "supply_in_loss_pct":      0.0,
+        "lth_spending_pct":        0.0,
+        "nupl":                    0.0,
     }
 
 
 def compute_bottom_score(m: dict) -> float:
-    """
-    Checkmate Bottom Score (max ~11 pts).
-    Désactivation déclenchée si score ≥ 7.
-    """
     score = 0.0
     if m["realized_losses_usd"] > 2_000_000_000:
         score += 2.0
@@ -227,10 +240,6 @@ def compute_bottom_score(m: dict) -> float:
 
 
 def compute_top_score(m: dict) -> float:
-    """
-    Checkmate Top Score (max 3 pts indicatifs).
-    Activation déclenchée si score ≥ 6 — ajouter d'autres indicateurs si besoin.
-    """
     score = 0.0
     if m["lth_spending_pct"] > 0.5:
         score += 2.0
@@ -246,10 +255,10 @@ def compute_top_score(m: dict) -> float:
 # ---------------------------------------------------------------------------
 
 def should_activate(price: float, state: dict, metrics: dict) -> bool:
-    fair_value  = get_fair_value()
-    high_90d    = get_90d_high(price)
-    drawdown    = (high_90d - price) / high_90d if high_90d > 0 else 0
-    top_score   = compute_top_score(metrics)
+    fair_value = get_fair_value()
+    high_90d   = get_90d_high(price)
+    drawdown   = (high_90d - price) / high_90d if high_90d > 0 else 0
+    top_score  = compute_top_score(metrics)
 
     cond1 = (high_90d >= fair_value * 2.3) and (drawdown >= 0.20)
     cond2 = top_score >= 6
@@ -262,12 +271,21 @@ def should_activate(price: float, state: dict, metrics: dict) -> bool:
     return cond1 or cond2
 
 
-def should_deactivate(state: dict, bottom_score: float) -> bool:
+def should_deactivate(state: dict, price: float, bottom_score: float) -> bool:
+    fair_value       = get_fair_value()
+    activation_price = state.get("ACTIVATION_PRICE") or 0
+
     if bottom_score >= 7:
         log.info(f"Désactivation — Bottom Score {bottom_score} ≥ 7")
         return True
     if state["DCA_COUNT"] >= 30:
         log.info("Désactivation — DCA_COUNT ≥ 30")
+        return True
+    if activation_price and price >= activation_price * 1.3:
+        log.info(f"Désactivation — Prix ${price:,.0f} ≥ ACTIVATION_PRICE×1.3 (${activation_price * 1.3:,.0f})")
+        return True
+    if price >= fair_value * 1.5:
+        log.info(f"Désactivation — Prix ${price:,.0f} ≥ Fair Value×1.5 (${fair_value * 1.5:,.0f})")
         return True
     return False
 
@@ -277,7 +295,7 @@ def should_deactivate(state: dict, bottom_score: float) -> bool:
 # ---------------------------------------------------------------------------
 
 def execute_dca_buy(state: dict, price: float, score: float) -> dict:
-    count = state["DCA_COUNT"] + 1
+    count    = state["DCA_COUNT"] + 1
     order_id = f"dca-{count}-{int(time.time())}"
 
     payload = {
@@ -291,45 +309,39 @@ def execute_dca_buy(state: dict, price: float, score: float) -> dict:
         },
     }
 
-    result   = _post("/api/v3/brokerage/orders", payload)
-    btc_qty  = float(result.get("order", {}).get("filled_size", 0))
+    result  = _post("/api/v3/brokerage/orders", payload)
+    btc_qty = float(result.get("order", {}).get("filled_size", 0))
 
-    log.info(f"DCA Buy #{count} at ${price:,.2f} | Checkmate Score: {score}")
-
-    state["DCA_COUNT"]       = count
-    state["LAST_DCA_PRICE"]  = price
-    state["LAST_DCA_TS"]     = datetime.now(timezone.utc).isoformat()
-    state["TOTAL_DCA_BTC"]  += btc_qty
+    state["DCA_COUNT"]      = count
+    state["LAST_DCA_PRICE"] = price
+    state["LAST_DCA_TS"]    = datetime.now(timezone.utc).isoformat()
+    state["TOTAL_DCA_BTC"] += btc_qty
     state["CHECKMATE_SCORE"] = score
+
+    log.info(f"DCA Buy #{count} at ${price:,.2f} | Score: {score} | Total: {state['TOTAL_DCA_BTC']:.8f} BTC")
     return state
 
 
 # ---------------------------------------------------------------------------
-# Logique DCA : décider si un achat est nécessaire
+# Logique DCA
 # ---------------------------------------------------------------------------
 
 def should_buy(state: dict, price: float) -> bool:
     last_price = state["LAST_DCA_PRICE"]
     last_ts    = state["LAST_DCA_TS"]
 
-    # Premier achat immédiat
     if last_price is None:
         return True
 
-    # Contrainte : max 1 achat par 24h
     if last_ts:
-        last_dt   = datetime.fromisoformat(last_ts)
-        now       = datetime.now(timezone.utc)
-        hours_ago = (now - last_dt).total_seconds() / 3600
+        hours_ago = (datetime.now(timezone.utc) - datetime.fromisoformat(last_ts)).total_seconds() / 3600
         if hours_ago < 24:
             return False
 
-    # Condition de prix : chute ≥ 7%
     price_drop = (last_price - price) / last_price
     if price_drop >= 0.07 and price <= last_price * 0.93:
         return True
 
-    # Condition de temps : ≥ 21 jours
     if last_ts:
         days_ago = (datetime.now(timezone.utc) - datetime.fromisoformat(last_ts)).days
         if days_ago >= 21:
@@ -346,27 +358,25 @@ def run_once() -> None:
     state = load_state()
 
     # Vérification des dépendances
-    checkonchain_reachable()
-    newhedge_reachable()
-    if not coinbase_api_ok():
-        return
+    check_onchain_sources(state)
+    check_newhedge()
+    check_coinbase(state)
 
     price   = get_btc_price()
     metrics = fetch_onchain_metrics()
     metrics["spot_price"] = price
 
-    bottom_score = compute_bottom_score(metrics)
+    bottom_score             = compute_bottom_score(metrics)
     state["CHECKMATE_SCORE"] = bottom_score
-
-    # Mode toujours actif : ignore les conditions d'activation/désactivation
-    if ALWAYS_ACTIVE:
-        state["ACTIVE"] = True
+    state["LAST_DATA_TS"]    = int(time.time())
 
     log.info(f"BTC ${price:,.0f} | ACTIVE={state['ACTIVE']} | DCA_COUNT={state['DCA_COUNT']} | Bottom Score={bottom_score}")
 
-    if not ALWAYS_ACTIVE:
+    if ALWAYS_ACTIVE:
+        state["ACTIVE"] = True
+    else:
         # Désactivation
-        if state["ACTIVE"] and should_deactivate(state, bottom_score):
+        if state["ACTIVE"] and should_deactivate(state, price, bottom_score):
             state["ACTIVE"] = False
             save_state(state)
             return
@@ -377,7 +387,7 @@ def run_once() -> None:
             state["ACTIVATION_PRICE"] = price
             save_state(state)
 
-    # Achats DCA (toujours exécutés si ACTIVE)
+    # Achats DCA
     if state["ACTIVE"] and should_buy(state, price):
         state = execute_dca_buy(state, price, bottom_score)
 
