@@ -3,21 +3,20 @@ DCA Bot BTC/USD — Coinbase Advanced Trade
 Stratégie d'accumulation Bitcoin pilotée par les métriques on-chain Checkmate.
 
 Prérequis :
-    pip install requests
-    export COINBASE_API_KEY="..."
-    export COINBASE_API_SECRET="..."
+    pip install requests PyJWT cryptography
 """
 
 import json
 import os
 import time
-import hashlib
-import hmac
+import uuid
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
+import jwt
 import requests
+from cryptography.hazmat.primitives.serialization import load_pem_private_key
 
 # ---------------------------------------------------------------------------
 # Chargement du .env (si présent)
@@ -74,22 +73,27 @@ def save_state(state: dict) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Authentification Coinbase Advanced Trade (ECDSA / JWT-like HMAC)
+# Authentification Coinbase CDP (JWT / ES256)
 # ---------------------------------------------------------------------------
 
 def _coinbase_headers(method: str, path: str, body: str = "") -> dict:
-    timestamp = str(int(time.time()))
-    message   = timestamp + method.upper() + path + body
-    signature = hmac.new(
-        API_SECRET.encode("utf-8"),
-        message.encode("utf-8"),
-        digestmod=hashlib.sha256,
-    ).hexdigest()
+    private_key = load_pem_private_key(API_SECRET.encode("utf-8"), password=None)
+    now = int(time.time())
+    token = jwt.encode(
+        {
+            "iss": "cdp",
+            "nbf": now,
+            "exp": now + 120,
+            "sub": API_KEY,
+            "uri": f"{method.upper()} api.coinbase.com{path}",
+        },
+        private_key,
+        algorithm="ES256",
+        headers={"kid": API_KEY, "nonce": uuid.uuid4().hex},
+    )
     return {
-        "CB-ACCESS-KEY":       API_KEY,
-        "CB-ACCESS-SIGN":      signature,
-        "CB-ACCESS-TIMESTAMP": timestamp,
-        "Content-Type":        "application/json",
+        "Authorization": f"Bearer {token}",
+        "Content-Type":  "application/json",
     }
 
 
