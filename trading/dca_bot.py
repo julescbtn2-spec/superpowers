@@ -16,7 +16,6 @@ from pathlib import Path
 
 import jwt
 import requests
-from cryptography.hazmat.primitives.serialization import load_pem_private_key
 
 # ---------------------------------------------------------------------------
 # Chargement du .env (si présent)
@@ -77,7 +76,8 @@ def save_state(state: dict) -> None:
 # ---------------------------------------------------------------------------
 
 def _coinbase_headers(method: str, path: str, body: str = "") -> dict:
-    private_key = load_pem_private_key(API_SECRET.encode("utf-8"), password=None)
+    # S'assurer que la clé PEM se termine par un saut de ligne
+    pem = API_SECRET if API_SECRET.endswith("\n") else API_SECRET + "\n"
     now = int(time.time())
     token = jwt.encode(
         {
@@ -87,7 +87,7 @@ def _coinbase_headers(method: str, path: str, body: str = "") -> dict:
             "sub": API_KEY,
             "uri": f"{method.upper()} api.coinbase.com{path}",
         },
-        private_key,
+        pem,
         algorithm="ES256",
         headers={"kid": API_KEY, "nonce": uuid.uuid4().hex},
     )
