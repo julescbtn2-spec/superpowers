@@ -39,7 +39,7 @@ API_SECRET = _raw.replace("\\n", "\n")
 BASE_URL   = "https://api.coinbase.com"
 STATE_FILE = Path(__file__).parent / "state.json"
 DCA_AMOUNT    = "4.00"    # USD par achat (portefeuille 110€ / 30 achats max)
-ALWAYS_ACTIVE = True      # True = DCA permanent sans condition d'activation
+ALWAYS_ACTIVE = False     # True = DCA permanent sans condition d'activation
 
 logging.basicConfig(
     level=logging.INFO,
