@@ -34,7 +34,8 @@ if _env_file.exists():
 # ---------------------------------------------------------------------------
 
 API_KEY    = os.environ.get("COINBASE_API_KEY", "")
-API_SECRET = os.environ.get("COINBASE_API_SECRET", "").replace("\\n", "\n")
+_raw       = os.environ.get("COINBASE_API_SECRET", "")
+API_SECRET = _raw.replace("\\n", "\n")
 BASE_URL   = "https://api.coinbase.com"
 STATE_FILE = Path(__file__).parent / "state.json"
 DCA_AMOUNT = "20.00"   # USD par achat
