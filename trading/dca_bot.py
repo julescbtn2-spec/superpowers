@@ -120,8 +120,11 @@ def coinbase_api_ok() -> bool:
     try:
         _get("/api/v3/brokerage/accounts")
         return True
-    except Exception:
-        log.warning("⚠️ Coinbase API issue - verify connectivity")
+    except requests.HTTPError as e:
+        log.warning(f"⚠️ Coinbase API HTTP {e.response.status_code}: {e.response.text[:300]}")
+        return False
+    except Exception as e:
+        log.warning(f"⚠️ Coinbase API issue: {e}")
         return False
 
 
