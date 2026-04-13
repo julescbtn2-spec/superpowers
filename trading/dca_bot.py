@@ -11,7 +11,6 @@ Prérequis :
 import json
 import os
 import time
-import uuid
 import hashlib
 import hmac
 import logging
@@ -21,11 +20,23 @@ from pathlib import Path
 import requests
 
 # ---------------------------------------------------------------------------
+# Chargement du .env (si présent)
+# ---------------------------------------------------------------------------
+
+_env_file = Path(__file__).parent / ".env"
+if _env_file.exists():
+    for _line in _env_file.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _v = _line.split("=", 1)
+            os.environ.setdefault(_k.strip(), _v.strip())
+
+# ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
 
 API_KEY    = os.environ.get("COINBASE_API_KEY", "")
-API_SECRET = os.environ.get("COINBASE_API_SECRET", "")
+API_SECRET = os.environ.get("COINBASE_API_SECRET", "").replace("\\n", "\n")
 BASE_URL   = "https://api.coinbase.com"
 STATE_FILE = Path(__file__).parent / "state.json"
 DCA_AMOUNT = "20.00"   # USD par achat
