@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FERVA — La Boisson Vivante</title>
+  <meta name="description" content="FERVA, kéfir & kombucha artisanaux fabriqués en Aveyron. Jamais pasteurisé, toujours vivant." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="logo">FERVA</a>
+      <ul class="nav-links">
+        <li><a href="#gammes">Gammes</a></li>
+        <li><a href="#valeurs">Notre ADN</a></li>
+        <li><a href="#histoire">Histoire</a></li>
+        <li><a href="#contact" class="btn-nav">Commander</a></li>
+      </ul>
+      <button class="burger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="bubble b1"></div>
+      <div class="bubble b2"></div>
+      <div class="bubble b3"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Aveyron · Fait vivant · Jamais pasteurisé</p>
+      <h1>LA BOISSON<br /><span class="accent">VIVANTE</span><br />AU QUOTIDIEN.</h1>
+      <p class="hero-sub">Kéfir &amp; Kombucha artisanaux, fermentés lentement pour préserver tout le vivant.</p>
+      <div class="hero-cta">
+        <a href="#gammes" class="btn-primary">Découvrir les saveurs</a>
+        <a href="#valeurs" class="btn-ghost">Notre philosophie</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Défiler</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MANIFESTE -->
+  <section id="manifeste">
+    <div class="container">
+      <p class="manifeste-text">"Ce qui bouillonne en nous depuis toujours."</p>
+    </div>
+  </section>
+
+  <!-- VALEURS -->
+  <section id="valeurs">
+    <div class="container">
+      <h2 class="section-title">Notre <span class="accent">ADN</span></h2>
+      <div class="valeurs-grid">
+        <div class="valeur-card">
+          <div class="valeur-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/>
+              <circle cx="24" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
+              <circle cx="24" cy="38" r="3" stroke="currentColor" stroke-width="2"/>
+              <circle cx="10" cy="24" r="3" stroke="currentColor" stroke-width="2"/>
+              <circle cx="38" cy="24" r="3" stroke="currentColor" stroke-width="2"/>
+              <circle cx="14" cy="14" r="3" stroke="currentColor" stroke-width="2"/>
+              <circle cx="34" cy="34" r="3" stroke="currentColor" stroke-width="2"/>
+              <circle cx="34" cy="14" r="3" stroke="currentColor" stroke-width="2"/>
+              <circle cx="14" cy="34" r="3" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Vivant</h3>
+          <p>Probiotiques actifs &amp; fermentation naturelle. Chaque bouteille contient des milliards de micro-organismes bénéfiques.</p>
+        </div>
+        <div class="valeur-card">
+          <div class="valeur-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 6C13 6 6 16 6 24C6 32 13 42 24 42C35 42 42 32 42 24C42 16 35 6 24 6Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M24 14V24L30 30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Pur</h3>
+          <p>Ingrédients simples, sans compromis. Pas d'additifs, pas de conservateurs, pas de filtration à chaud.</p>
+        </div>
+        <div class="valeur-card">
+          <div class="valeur-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 36C12 28 18 22 24 18C30 22 36 28 36 36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M24 18V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="24" cy="8" r="2" fill="currentColor"/>
+              <path d="M8 36H40" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Accessible</h3>
+          <p>Pour tous, tous les jours, sans compromis sur le goût. La santé ne devrait pas être un luxe.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAMMES -->
+  <section id="gammes">
+    <div class="container">
+      <h2 class="section-title">Nos <span class="accent">Gammes</span></h2>
+      <p class="section-sub">Trois collections pensées pour chaque moment de la journée</p>
+
+      <!-- TABS -->
+      <div class="tabs-wrapper">
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="grande-surface" role="tab" aria-selected="true">
+            <span class="tab-num">01</span>
+            <span class="tab-label">Grande Surface</span>
+          </button>
+          <button class="tab" data-tab="resto" role="tab" aria-selected="false">
+            <span class="tab-num">02</span>
+            <span class="tab-label">Boulangeries &amp; Restos</span>
+          </button>
+          <button class="tab" data-tab="grand-format" role="tab" aria-selected="false">
+            <span class="tab-num">03</span>
+            <span class="tab-label">Grand Format</span>
+          </button>
+        </div>
+
+        <!-- GRANDE SURFACE -->
+        <div class="tab-panel active" id="tab-grande-surface" role="tabpanel">
+          <div class="gamme-header">
+            <div>
+              <h3>Grande Surface</h3>
+              <p class="gamme-desc">Consommation quotidienne.</p>
+              <div class="formats">
+                <span>25cl</span><span>33cl</span><span>50cl</span>
+              </div>
+            </div>
+          </div>
+          <div class="produits-grid">
+            <div class="produit-card" style="--accent: #d4b84a;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #d4b84a22, #d4b84a44);"></div>
+              <div class="produit-dot" style="background: #d4b84a;"></div>
+              <h4>Citron Gingembre</h4>
+              <p>Frais et pétillant, avec une touche épicée.</p>
+              <span class="produit-tag">Kéfir</span>
+            </div>
+            <div class="produit-card" style="--accent: #c0394b;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #c0394b22, #c0394b44);"></div>
+              <div class="produit-dot" style="background: #c0394b;"></div>
+              <h4>Framboise Hibiscus</h4>
+              <p>Fruité et floral, légèrement acidulé.</p>
+              <span class="produit-tag">Kombucha</span>
+            </div>
+            <div class="produit-card" style="--accent: #5a9e6f;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #5a9e6f22, #5a9e6f44);"></div>
+              <div class="produit-dot" style="background: #5a9e6f;"></div>
+              <h4>Pomme Menthe</h4>
+              <p>Doux et rafraîchissant, finement mentholé.</p>
+              <span class="produit-tag">Kéfir</span>
+            </div>
+            <div class="produit-card" style="--accent: #e8922a;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #e8922a22, #e8922a44);"></div>
+              <div class="produit-dot" style="background: #e8922a;"></div>
+              <h4>Mangue Passion</h4>
+              <p>Exotique et gourmand, 100% plaisir.</p>
+              <span class="produit-tag">Kombucha</span>
+            </div>
+            <div class="produit-card" style="--accent: #7dbf5e;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #7dbf5e22, #7dbf5e44);"></div>
+              <div class="produit-dot" style="background: #7dbf5e;"></div>
+              <h4>Citron Vert Nature</h4>
+              <p>Intense et désaltérant. Le classique.</p>
+              <span class="produit-tag">Kéfir</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOULANGERIES & RESTOS -->
+        <div class="tab-panel" id="tab-resto" role="tabpanel">
+          <div class="gamme-header">
+            <div>
+              <h3>Boulangeries &amp; Restaurants</h3>
+              <p class="gamme-desc">Accords &amp; plaisir.</p>
+              <div class="formats">
+                <span>25cl</span><span>33cl</span><span>50cl</span>
+              </div>
+            </div>
+          </div>
+          <div class="produits-grid">
+            <div class="produit-card" style="--accent: #d4627a;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #d4627a22, #d4627a44);"></div>
+              <div class="produit-dot" style="background: #d4627a;"></div>
+              <h4>Fraise Basilic</h4>
+              <p>Fraise juteuse et basilic frais, tout en délicatesse.</p>
+              <span class="produit-tag">Kéfir</span>
+            </div>
+            <div class="produit-card" style="--accent: #e8b87a;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #e8b87a22, #e8b87a44);"></div>
+              <div class="produit-dot" style="background: #e8b87a;"></div>
+              <h4>Pêche Verveine</h4>
+              <p>Ronde et douce, avec une note herbacée.</p>
+              <span class="produit-tag">Kombucha</span>
+            </div>
+            <div class="produit-card" style="--accent: #b8d48a;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #b8d48a22, #b8d48a44);"></div>
+              <div class="produit-dot" style="background: #b8d48a;"></div>
+              <h4>Poire Thym</h4>
+              <p>Subtil et aromatique, élégant.</p>
+              <span class="produit-tag">Kéfir</span>
+            </div>
+            <div class="produit-card" style="--accent: #d4a84a;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #d4a84a22, #d4a84a44);"></div>
+              <div class="produit-dot" style="background: #d4a84a;"></div>
+              <h4>Citron Miel</h4>
+              <p>Doux et réconfortant, parfait avec les douceurs.</p>
+              <span class="produit-tag">Kombucha</span>
+            </div>
+            <div class="produit-card" style="--accent: #e87a6a;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #e87a6a22, #e87a6a44);"></div>
+              <div class="produit-dot" style="background: #e87a6a;"></div>
+              <h4>Pamplemousse Romarin</h4>
+              <p>Tonique et raffiné, une amertume maîtrisée.</p>
+              <span class="produit-tag">Kéfir</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRAND FORMAT -->
+        <div class="tab-panel" id="tab-grand-format" role="tabpanel">
+          <div class="gamme-header">
+            <div>
+              <h3>Grand Format Particuliers</h3>
+              <p class="gamme-desc">À partager.</p>
+              <div class="formats">
+                <span>75cl</span><span>1L</span>
+              </div>
+            </div>
+          </div>
+          <div class="produits-grid">
+            <div class="produit-card" style="--accent: #8fd4a0;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #8fd4a022, #8fd4a044);"></div>
+              <div class="produit-dot" style="background: #8fd4a0;"></div>
+              <h4>Citron Concombre</h4>
+              <p>Léger et hydratant, parfait à table.</p>
+              <span class="produit-tag">Kéfir</span>
+            </div>
+            <div class="produit-card" style="--accent: #9b7ec8;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #9b7ec822, #9b7ec844);"></div>
+              <div class="produit-dot" style="background: #9b7ec8;"></div>
+              <h4>Myrtille Lavande</h4>
+              <p>Floral et fruité, douceur et profondeur.</p>
+              <span class="produit-tag">Kombucha</span>
+            </div>
+            <div class="produit-card" style="--accent: #d4a040;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #d4a04022, #d4a04044);"></div>
+              <div class="produit-dot" style="background: #d4a040;"></div>
+              <h4>Gingembre Curcuma</h4>
+              <p>Épicé et revigorant, effet naturel.</p>
+              <span class="produit-tag">Kéfir</span>
+            </div>
+            <div class="produit-card" style="--accent: #5ab878;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #5ab87822, #5ab87844);"></div>
+              <div class="produit-dot" style="background: #5ab878;"></div>
+              <h4>Ananas Menthe</h4>
+              <p>Tropical et rafraîchissant, ensoleillé.</p>
+              <span class="produit-tag">Kombucha</span>
+            </div>
+            <div class="produit-card" style="--accent: #6a3a8a;">
+              <div class="produit-color" style="background: linear-gradient(135deg, #6a3a8a22, #6a3a8a44);"></div>
+              <div class="produit-dot" style="background: #6a3a8a;"></div>
+              <h4>Cassis Baies de Sureau</h4>
+              <p>Profond et gourmand, riche en antioxydants.</p>
+              <span class="produit-tag">Kombucha</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIENFAITS -->
+  <section id="bienfaits">
+    <div class="container">
+      <div class="bienfaits-grid">
+        <div class="bienfait">
+          <div class="bienfait-icon">🦠</div>
+          <h4>Vivant par nature</h4>
+          <p>Jamais pasteurisé. Jamais filtré à chaud. Les cultures actives sont préservées intact.</p>
+        </div>
+        <div class="bienfait">
+          <div class="bienfait-icon">💚</div>
+          <h4>Bon pour vous</h4>
+          <p>Soutient la digestion, l'immunité et l'énergie. Un allié santé au quotidien.</p>
+        </div>
+        <div class="bienfait">
+          <div class="bienfait-icon">🌿</div>
+          <h4>Bon pour la planète</h4>
+          <p>Bouteilles recyclables. Production responsable. Ancré en Aveyron.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTOIRE -->
+  <section id="histoire">
+    <div class="container histoire-inner">
+      <div class="histoire-text">
+        <p class="histoire-eyebrow">Aveyron, France</p>
+        <h2>Nés du <span class="accent">vivant</span>,<br />enracinés dans<br />le territoire.</h2>
+        <p>FERVA est né d'une conviction simple : les meilleures boissons sont celles qui vivent. Fermentées lentement dans notre atelier aveyronnais, nos kéfirs et kombuchas puisent leur caractère dans des ingrédients locaux et une tradition artisanale sans compromis.</p>
+        <p>Pas de pasteurisation. Pas de filtration à chaud. Juste du vivant, dans chaque gorgée.</p>
+        <a href="#contact" class="btn-primary">Nous contacter</a>
+      </div>
+      <div class="histoire-visual">
+        <div class="histoire-badge">
+          <div class="badge-ring">
+            <span>FAIT AVEC DU</span>
+            <strong>VIVANT</strong>
+            <span>JAMAIS PASTEURISÉ</span>
+          </div>
+        </div>
+        <div class="histoire-stats">
+          <div class="stat">
+            <strong>100%</strong>
+            <span>Artisanal</span>
+          </div>
+          <div class="stat">
+            <strong>0</strong>
+            <span>Additifs</span>
+          </div>
+          <div class="stat">
+            <strong>3</strong>
+            <span>Gammes</span>
+          </div>
+          <div class="stat">
+            <strong>15+</strong>
+            <span>Saveurs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / CTA -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-card">
+        <h2>Prêt à goûter<br /><span class="accent">le vivant</span>&nbsp;?</h2>
+        <p>Distributeurs, restaurateurs ou simplement curieux — écrivez-nous.</p>
+        <form class="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nom">Nom</label>
+              <input type="text" id="nom" name="nom" placeholder="Votre nom" autocomplete="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="votre@email.fr" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sujet">Je suis…</label>
+            <select id="sujet" name="sujet">
+              <option value="">Sélectionner</option>
+              <option>Un particulier</option>
+              <option>Un restaurateur / boulanger</option>
+              <option>Un distributeur / revendeur</option>
+              <option>Un journaliste / influenceur</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" placeholder="Votre message…" required></textarea>
+          </div>
+          <button type="submit" class="btn-primary btn-full">Envoyer le message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">FERVA</div>
+        <p>La boisson vivante au quotidien.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/ferva.living" target="_blank" rel="noopener" aria-label="Instagram FERVA">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            @ferva.living
+          </a>
+          <a href="https://ferva.living" target="_blank" rel="noopener" aria-label="Site FERVA">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            ferva.living
+          </a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h5>Navigation</h5>
+        <ul>
+          <li><a href="#gammes">Nos gammes</a></li>
+          <li><a href="#valeurs">Notre ADN</a></li>
+          <li><a href="#histoire">Notre histoire</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h5>Gammes</h5>
+        <ul>
+          <li><a href="#gammes">Grande Surface</a></li>
+          <li><a href="#gammes">Boulangeries &amp; Restos</a></li>
+          <li><a href="#gammes">Grand Format</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h5>Nous trouver</h5>
+        <ul>
+          <li>Aveyron, France</li>
+          <li><a href="mailto:contact@ferva.living">contact@ferva.living</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 FERVA — Tous droits réservés &middot; <a href="#">Mentions légales</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
