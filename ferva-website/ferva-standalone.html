@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERVA — La Boisson Vivante</title>
+  <meta name="description" content="Kéfir et Kombucha artisanaux, Aveyron. 15 saveurs, 3 gammes. Jamais pasteurisé.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+/* ═══════════════════════════════════════════════════════════
+   FERVA — Styles
+   Dynamic color theming via --accent CSS custom property
+════════════════════════════════════════════════════════════ */
+
+/* ── VARIABLES ────────────────────────────────────────────── */
+:root {
+  --bg:   #080808;
+  --bg2:  #0e0e0e;
+  --bg3:  #151515;
+  --bg4:  #1c1c1c;
+  --text: #F0EBE0;
+  --muted: rgba(240,235,224,0.45);
+  --dim:   rgba(240,235,224,0.15);
+  --border: rgba(255,255,255,0.07);
+
+  /* ← The star: changes per flavor via JS */
+  --accent:     #C8A83C;
+  --accent-rgb: 200,168,60;
+
+  --r:   10px;
+  --r-lg: 18px;
+  --r-xl: 30px;
+
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --t: 0.32s;
+  --tc: 0.55s ease; /* color transition */
+
+  --font-d: 'Bebas Neue', sans-serif;
+  --font-b: 'Inter', sans-serif;
+  --font-s: 'Playfair Display', serif;
+}
+
+/* ── RESET ────────────────────────────────────────────────── */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; font-size:16px; -webkit-text-size-adjust:100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color:inherit; text-decoration:none; }
+button { cursor:pointer; font:inherit; border:none; background:none; }
+img { display:block; max-width:100%; }
+ul { list-style:none; }
+
+/* ── GRAIN OVERLAY ───────────────────────────────────────── */
+.grain {
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+}
+
+/* ── LAYOUT ───────────────────────────────────────────────── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+}
+
+section { padding: clamp(6rem, 12vw, 10rem) 0; }
+
+/* ── TYPOGRAPHY ────────────────────────────────────────────── */
+h1,h2,h3 { font-family: var(--font-d); line-height: 1; }
+
+h2 {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  letter-spacing: 0.02em;
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: color var(--tc);
+}
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: var(--accent);
+  transition: background var(--tc);
+}
+
+.ac { color: var(--accent); transition: color var(--tc); }
+
+.section-sub {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 520px;
+  line-height: 1.75;
+  margin-top: 0.5rem;
+}
+
+/* ── BUTTONS ───────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center; gap: 0.5rem;
+  background: var(--accent);
+  color: #060606;
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  border-radius: 50px;
+  transition: background var(--tc), transform var(--t) var(--ease), box-shadow var(--t);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.35);
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center; gap: 0.5rem;
+  background: transparent;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  transition: border-color var(--tc), background var(--t), transform var(--t) var(--ease);
+}
+.btn-ghost:hover {
+  border-color: rgba(var(--accent-rgb), 0.4);
+  background: rgba(var(--accent-rgb), 0.05);
+  transform: translateY(-2px);
+}
+.btn-full { width:100%; justify-content:center; border-radius: var(--r); }
+
+/* ── NAV ───────────────────────────────────────────────────── */
+#nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  padding: 1.5rem 0;
+  transition: background var(--t), padding var(--t), border-color var(--t);
+  border-bottom: 1px solid transparent;
+}
+#nav.scrolled {
+  background: rgba(8,8,8,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 0.85rem 0;
+  border-bottom-color: var(--border);
+}
+.nav-inner {
+  max-width: 1280px; margin:0 auto;
+  padding: 0 clamp(1.5rem,5vw,4rem);
+  display: flex; align-items:center; justify-content:space-between;
+}
+.nav-logo {
+  font-family: var(--font-d);
+  font-size: 1.9rem;
+  letter-spacing: 0.1em;
+  color: var(--text);
+  display: flex; align-items:center; gap: 0.6rem;
+  line-height: 1;
+}
+.nav-pulse {
+  width: 8px; height: 8px; border-radius:50%;
+  background: var(--accent);
+  transition: background var(--tc);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.5; transform:scale(0.7); }
+}
+.nav-links {
+  display: flex; align-items:center; gap: 2.5rem; list-style:none;
+}
+.nav-links a {
+  font-size: 0.8rem; font-weight:500;
+  letter-spacing: 0.07em; text-transform:uppercase;
+  color: var(--muted);
+  transition: color var(--t);
+}
+.nav-links a:hover { color: var(--text); }
+.btn-nav {
+  background: var(--accent) !important;
+  color: #060606 !important;
+  padding: 0.55rem 1.35rem;
+  border-radius: 50px;
+  font-weight: 600 !important;
+  transition: background var(--tc), transform var(--t) !important;
+}
+.btn-nav:hover { transform: translateY(-1px); }
+
+.burger { display:none; flex-direction:column; gap:5px; padding:4px; }
+.burger span { display:block; width:22px; height:1.5px; background:var(--text); border-radius:2px; transition: transform var(--t), opacity var(--t); }
+.burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity:0; }
+.burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── HERO ───────────────────────────────────────────────────── */
+#hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex; align-items:center;
+  overflow: hidden;
+  padding-top: 6rem;
+}
+.hero-orbs { position:absolute; inset:0; pointer-events:none; }
+.orb {
+  position: absolute; border-radius:50%;
+  filter: blur(120px); opacity:0.12;
+  animation: drift 12s ease-in-out infinite;
+  transition: background var(--tc);
+}
+.o1 {
+  width: 700px; height:700px;
+  background: radial-gradient(circle, var(--accent), transparent 65%);
+  top:-15%; right:-8%;
+}
+.o2 {
+  width: 450px; height:450px;
+  background: radial-gradient(circle, #3a6e4a, transparent 65%);
+  bottom:5%; left:-5%;
+  animation-delay: -4s; animation-duration:15s;
+}
+.o3 {
+  width: 300px; height:300px;
+  background: radial-gradient(circle, var(--accent), transparent 65%);
+  bottom:-5%; right:30%;
+  animation-delay: -7s; animation-duration:10s;
+  opacity:0.07;
+}
+@keyframes drift {
+  0%,100% { transform:translate(0,0) scale(1); }
+  33% { transform:translate(-20px,30px) scale(1.04); }
+  66% { transform:translate(25px,-15px) scale(0.97); }
+}
+
+.hero-content {
+  position: relative; z-index:1;
+  max-width: 1280px; margin:0 auto;
+  padding: 0 clamp(1.5rem,5vw,4rem);
+}
+.hero-title {
+  display: flex; flex-direction:column;
+  margin-bottom: 1.5rem;
+  line-height: 0.9;
+}
+.ht-ferva {
+  font-family: var(--font-d);
+  font-size: clamp(6rem, 16vw, 18rem);
+  letter-spacing: -0.01em;
+  color: var(--text);
+  line-height: 0.88;
+}
+.ht-active {
+  font-family: var(--font-d);
+  font-size: clamp(1.6rem, 4vw, 4.5rem);
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  transition: color var(--tc);
+  margin-top: 0.15em;
+  margin-left: 0.1em;
+}
+.hero-tagline {
+  font-family: var(--font-s);
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  font-weight: 400;
+}
+.hero-sub {
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+  color: var(--muted);
+  max-width: 440px;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  line-height: 1.8;
+}
+.hero-cta { display:flex; gap:1rem; flex-wrap:wrap; }
+
+.hero-scroll {
+  position: absolute; bottom:2.5rem; left:50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction:column; align-items:center; gap:0.6rem;
+  z-index:1;
+}
+.hero-scroll span {
+  font-size:0.65rem; letter-spacing:0.15em;
+  text-transform:uppercase; color:var(--dim);
+}
+.scroll-bar {
+  width:1px; height:36px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  transition: background var(--tc);
+  animation: scrollfade 2s ease-in-out infinite;
+}
+@keyframes scrollfade {
+  0%,100% { opacity:0.3; }
+  50% { opacity:1; }
+}
+
+/* ── TICKER ─────────────────────────────────────────────────── */
+.ticker {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  background: var(--bg2);
+  user-select: none;
+}
+.ticker-track {
+  display: inline-flex; align-items:center; gap:2.5rem;
+  white-space: nowrap;
+  animation: tick 30s linear infinite;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.ticker-track .sep {
+  color: var(--accent);
+  font-size: 0.9rem;
+  transition: color var(--tc);
+}
+@keyframes tick {
+  from { transform:translateX(0); }
+  to   { transform:translateX(-50%); }
+}
+
+/* ── MARCHÉ ─────────────────────────────────────────────────── */
+#marche { background: var(--bg2); }
+.marche-header { margin-bottom: 3.5rem; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+.stat-card {
+  display: flex; flex-direction:column; gap:0.85rem;
+  padding: 2.5rem 2rem;
+  background: var(--bg3);
+  transition: background var(--t);
+}
+.stat-card:hover { background: var(--bg4); }
+
+.stat-num {
+  font-family: var(--font-d);
+  font-size: clamp(3rem, 5vw, 5rem);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--accent);
+  transition: color var(--tc);
+}
+.stat-num small {
+  font-size: 0.45em;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 200px;
+}
+.marche-pitch {
+  max-width: 680px;
+  padding: 2rem;
+  border-left: 2px solid var(--accent);
+  transition: border-color var(--tc);
+}
+.marche-pitch p {
+  font-family: var(--font-s);
+  font-style: italic;
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── PRODUITS (flavor showcase) ─────────────────────────────── */
+#produits { background: var(--bg); }
+.produits-header { margin-bottom: 3.5rem; }
+
+.produits-layout {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  min-height: 540px;
+}
+
+/* List */
+.fl-list {
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  max-height: 600px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.fl-list::-webkit-scrollbar { width:4px; }
+.fl-list::-webkit-scrollbar-thumb { background: var(--border); border-radius:4px; }
+
+.fl-group { padding: 0; }
+.fl-group:not(:last-child) { border-bottom: 1px solid var(--border); }
+
+.fl-group-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 1.25rem 1.5rem 0.75rem;
+}
+
+.fl-item {
+  display: flex; align-items:center; gap:0.875rem;
+  width:100%; text-align:left;
+  padding: 0.85rem 1.5rem;
+  transition: background var(--t);
+  border-left: 2px solid transparent;
+}
+.fl-item:hover { background: rgba(255,255,255,0.03); }
+.fl-item.active {
+  background: rgba(var(--accent-rgb), 0.07);
+  border-left-color: var(--accent);
+  transition: background var(--tc), border-color var(--tc);
+}
+
+.fl-dot {
+  width:10px; height:10px; border-radius:50%;
+  background: var(--c);
+  flex-shrink:0;
+  transition: transform var(--t);
+}
+.fl-item.active .fl-dot { transform:scale(1.3); }
+
+.fl-name {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--muted);
+  flex:1;
+  transition: color var(--t);
+}
+.fl-item.active .fl-name { color: var(--text); }
+.fl-item:hover .fl-name { color: var(--text); }
+
+.fl-badge {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.55rem;
+  border-radius: 50px;
+}
+
+/* Display */
+.fl-display {
+  position: relative;
+  display: flex; flex-direction:column; justify-content:flex-end;
+  padding: 3rem;
+  overflow: hidden;
+  min-height: 480px;
+}
+.fl-orb {
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 500px; height:500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent), transparent 65%);
+  filter: blur(80px);
+  opacity: 0.18;
+  transition: background var(--tc), opacity 0.4s;
+  pointer-events: none;
+}
+
+.fl-display-content { position:relative; z-index:1; }
+
+.fl-display-meta {
+  display: flex; gap:0.6rem; margin-bottom:1.25rem;
+}
+.fl-display-type,
+.fl-display-gamme {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  color: var(--accent);
+  transition: color var(--tc), border-color var(--tc);
+}
+.fl-display-gamme {
+  border-color: var(--border);
+  color: var(--muted);
+}
+
+.fl-display-name {
+  font-family: var(--font-d);
+  font-size: clamp(3rem, 5vw, 6rem);
+  letter-spacing: 0.02em;
+  line-height: 0.95;
+  color: var(--text);
+  margin-bottom: 1rem;
+  transition: opacity 0.3s;
+}
+
+.fl-display-desc {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 380px;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+.fl-display-formats {
+  display: flex; gap:0.5rem; margin-bottom:1rem;
+}
+.fl-display-formats span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  color: var(--muted);
+}
+
+.fl-display-price {
+  font-size: 0.82rem;
+  color: var(--dim);
+}
+.fl-display-price strong {
+  color: var(--accent);
+  font-size: 1rem;
+  transition: color var(--tc);
+}
+
+.fl-progress {
+  position: absolute; bottom:0; left:0; right:0;
+  height: 2px;
+  background: var(--border);
+}
+.fl-progress-bar {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.1s linear, background var(--tc);
+  width: 0%;
+}
+
+/* ── GAMME ──────────────────────────────────────────────────── */
+#gamme { background: var(--bg2); }
+.gamme-header { margin-bottom: 3.5rem; }
+
+.gamme-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 1.5rem;
+}
+.gamme-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 2.5rem 2rem;
+  display: flex; flex-direction:column; gap:1.5rem;
+  transition: border-color var(--t), transform var(--t);
+}
+.gamme-card:hover {
+  border-color: rgba(var(--accent-rgb), 0.25);
+  transform: translateY(-4px);
+}
+.gamme-num {
+  font-family: var(--font-d);
+  font-size: 3.5rem;
+  line-height:1;
+  color: var(--dim);
+  letter-spacing: 0.05em;
+}
+.gamme-card h3 {
+  font-family: var(--font-d);
+  font-size: 1.75rem;
+  letter-spacing: 0.04em;
+  line-height:1.1;
+  color: var(--text);
+}
+.gamme-pitch {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.7;
+  flex:1;
+}
+.gamme-formats { display:flex; gap:0.4rem; flex-wrap:wrap; }
+.gamme-formats span {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  color: var(--muted);
+}
+.gamme-flavors {
+  display: flex; flex-direction:column; gap:0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+.gamme-flavors li {
+  display: flex; align-items:center; gap:0.65rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.gamme-flavors li span {
+  width:8px; height:8px; border-radius:50%;
+  flex-shrink:0;
+}
+
+/* ── VALEURS ────────────────────────────────────────────────── */
+#valeurs {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: clamp(4rem, 8vw, 6rem) 0;
+}
+.valeurs-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 0;
+}
+.valeur {
+  display: flex; flex-direction:column; gap:1.25rem;
+  padding: 3rem 2.5rem;
+  border-right: 1px solid var(--border);
+  transition: background var(--t);
+}
+.valeur:last-child { border-right:none; }
+.valeur:hover { background: rgba(var(--accent-rgb), 0.03); }
+
+.valeur-icon {
+  width: 44px; height:44px;
+  color: var(--accent);
+  transition: color var(--tc);
+}
+.valeur h3 {
+  font-family: var(--font-d);
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  color: var(--text);
+}
+.valeur p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── TERROIR ────────────────────────────────────────────────── */
+#terroir { background: var(--bg2); }
+.terroir-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+.terroir-text h2 { margin-bottom: 1.25rem; }
+.terroir-text p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+.terroir-tags { display:flex; gap:0.5rem; flex-wrap:wrap; }
+.terroir-tags span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  color: var(--muted);
+}
+.terroir-badge-wrap {
+  display: flex; justify-content:center; align-items:center;
+}
+.terroir-badge {
+  width: 240px; height:240px;
+  display: flex; align-items:center; justify-content:center;
+}
+.tb-ring {
+  width: 200px; height:200px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  display: flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:0.2rem; text-align:center; padding:1.5rem;
+  animation: spin 24s linear infinite;
+  position: relative;
+  transition: border-color var(--tc);
+}
+.tb-ring::before {
+  content:''; position:absolute; inset:8px;
+  border-radius:50%;
+  border: 1px dashed rgba(var(--accent-rgb),0.25);
+  transition: border-color var(--tc);
+}
+.tb-ring span {
+  font-size: 0.6rem; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--muted);
+}
+.tb-ring strong {
+  font-family: var(--font-d);
+  font-size: 2.2rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  line-height:1;
+  transition: color var(--tc);
+}
+@keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+/* ── PROS ───────────────────────────────────────────────────── */
+#pros { background: var(--bg); }
+.pros-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+.pros-text h2 { margin-bottom: 1.25rem; }
+.pros-text > p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+.pros-benefits { display:flex; flex-direction:column; gap:0.875rem; }
+.pros-benefits li {
+  display: flex; align-items:flex-start; gap:1rem;
+  font-size: 0.9rem; color: var(--muted);
+}
+.pros-icon {
+  color: var(--accent);
+  font-size: 0.85rem;
+  flex-shrink:0;
+  margin-top:0.1rem;
+  transition: color var(--tc);
+}
+
+/* ── FORMS ──────────────────────────────────────────────────── */
+.pros-form-wrap, .contact-form-wrap {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2.5rem;
+}
+.pros-form h3, .contact-form h3 {
+  font-family: var(--font-d);
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+}
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+
+.fg {
+  display: flex; flex-direction:column; gap:0.45rem;
+  margin-bottom: 1rem;
+}
+.fg:last-of-type { margin-bottom: 1.5rem; }
+
+.fg label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.fg input, .fg select, .fg textarea {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 0.85rem 1rem;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  appearance: none;
+  outline: none;
+  resize: vertical;
+  transition: border-color var(--tc), box-shadow var(--t);
+}
+.fg input::placeholder, .fg textarea::placeholder { color:var(--dim); }
+.fg input:focus, .fg select:focus, .fg textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+}
+.fg select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(240,235,224,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+.fg select option { background: var(--bg4); }
+
+.form-legal {
+  text-align:center;
+  font-size:0.75rem;
+  color: var(--dim);
+  margin-top:0.75rem;
+}
+.form-success-msg {
+  display: none;
+  background: rgba(74,184,112,0.1);
+  border: 1px solid rgba(74,184,112,0.3);
+  border-radius: var(--r);
+  padding: 0.875rem 1.25rem;
+  font-size: 0.875rem;
+  color: #7fd4a0;
+  text-align: center;
+  margin-top: 1rem;
+  animation: fadeup 0.4s ease;
+}
+.form-success-msg.show { display:block; }
+
+/* ── FAQ ────────────────────────────────────────────────────── */
+#faq { background: var(--bg2); }
+.faq-header { margin-bottom: 3.5rem; }
+.faq-list { max-width: 800px; }
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.faq-item:first-child { border-top: 1px solid var(--border); }
+
+.faq-q {
+  display: flex; justify-content:space-between; align-items:center;
+  width:100%; padding: 1.5rem 0;
+  text-align:left; color:var(--text);
+  font-size: 0.95rem; font-weight:500;
+  gap:1.5rem;
+  transition: color var(--t);
+}
+.faq-q:hover { color: var(--accent); }
+.faq-icon {
+  font-size: 1.2rem; font-weight:300;
+  color: var(--accent);
+  transition: transform var(--t), color var(--tc);
+  flex-shrink:0;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+.faq-item.open .faq-a { max-height: 300px; }
+.faq-a p {
+  padding-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ── CONTACT ────────────────────────────────────────────────── */
+#contact { background: var(--bg); }
+.contact-header { margin-bottom: 3.5rem; }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+.contact-highlights {
+  display: flex; flex-direction:column; gap:2rem;
+}
+.ch-item {
+  padding: 0 0 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.ch-item:last-child { border-bottom:none; padding-bottom:0; }
+.ch-item strong {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  transition: color var(--tc);
+}
+.ch-item p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+#footer {
+  padding-top: clamp(4rem, 8vw, 6rem);
+  border-top: 1px solid var(--border);
+}
+.footer-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+.footer-logo {
+  font-family: var(--font-d);
+  font-size: 3.5rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  line-height:1;
+  margin-bottom: 0.75rem;
+  transition: color var(--tc);
+}
+.footer-brand p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+}
+.footer-socials { display:flex; flex-direction:column; gap:0.65rem; }
+.footer-socials a {
+  display:flex; align-items:center; gap:0.55rem;
+  font-size: 0.82rem; color: var(--muted);
+  transition: color var(--t);
+}
+.footer-socials a:hover { color: var(--accent); }
+.footer-socials svg { width:15px; height:15px; flex-shrink:0; }
+
+.footer-nav h5 {
+  font-size: 0.68rem; font-weight:600;
+  letter-spacing: 0.14em; text-transform:uppercase;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+}
+.footer-nav ul { display:flex; flex-direction:column; gap:0.55rem; }
+.footer-nav li, .footer-nav a {
+  font-size: 0.85rem; color: var(--muted);
+  transition: color var(--t);
+}
+.footer-nav a:hover { color: var(--text); }
+
+.footer-bottom {
+  display: flex; justify-content:space-between; align-items:center;
+  padding: 1.25rem 0;
+  flex-wrap:wrap; gap:0.5rem;
+}
+.footer-bottom p {
+  font-size: 0.75rem;
+  color: var(--dim);
+}
+.footer-bottom a {
+  color: var(--dim);
+  transition: color var(--t);
+}
+.footer-bottom a:hover { color: var(--muted); }
+.footer-tagline {
+  font-family: var(--font-s);
+  font-style: italic;
+  font-size: 0.78rem !important;
+  color: var(--dim) !important;
+}
+
+/* ── REVEALS ────────────────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeup {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .gamme-grid { grid-template-columns: 1fr; gap:1rem; }
+  .gamme-card { flex-direction:row; gap:2rem; }
+  .gamme-num { font-size:2.5rem; }
+}
+
+@media (max-width: 900px) {
+  .produits-layout { grid-template-columns:1fr; }
+  .fl-list { max-height:300px; border-right:none; border-bottom:1px solid var(--border); }
+  .fl-display { min-height:320px; }
+  .terroir-inner, .pros-inner, .contact-grid { grid-template-columns:1fr; gap:3rem; }
+  .terroir-badge-wrap { display:none; }
+  .valeurs-grid { grid-template-columns:1fr; }
+  .valeur { border-right:none; border-bottom: 1px solid var(--border); padding:2rem; }
+  .valeur:last-child { border-bottom:none; }
+  .footer-inner { grid-template-columns:1fr 1fr; }
+  .footer-brand { grid-column: 1/-1; }
+}
+
+@media (max-width: 640px) {
+  section { padding: 4rem 0; }
+  .nav-links {
+    position:fixed; top:0; right:0; bottom:0; width:80%; max-width:300px;
+    background: rgba(8,8,8,0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction:column; align-items:flex-start;
+    padding: 5rem 2rem 2rem;
+    gap: 1.25rem;
+    transform: translateX(110%);
+    transition: transform 0.35s var(--ease);
+    border-left: 1px solid var(--border);
+    z-index:99;
+  }
+  .nav-links.open { transform:translateX(0); }
+  .nav-links a { font-size:0.9rem; }
+  .burger { display:flex; z-index:101; }
+  .hero-cta { flex-direction:column; align-items:flex-start; }
+  .ht-ferva { font-size: clamp(5rem, 20vw, 8rem); }
+  .stats-grid { grid-template-columns:1fr; }
+  .gamme-card { flex-direction:column; }
+  .form-row { grid-template-columns:1fr; }
+  .footer-inner { grid-template-columns:1fr; }
+  .footer-brand { grid-column:auto; }
+  .footer-bottom { flex-direction:column; align-items:flex-start; gap:0.25rem; }
+  .fl-display { padding:2rem; }
+  .fl-display-name { font-size: clamp(2.5rem,10vw,4rem); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- GRAIN -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════ NAV ══════════════════════════════ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      FERVA
+      <span class="nav-pulse" id="navPulse"></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#produits">Le Produit</a></li>
+      <li><a href="#gamme">Gammes</a></li>
+      <li><a href="#pros">Pour les Pros</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="btn-nav">Investir →</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+<section id="hero">
+  <div class="hero-orbs" aria-hidden="true">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+  </div>
+  <div class="hero-content">
+    <p class="eyebrow">Kéfir &amp; Kombucha Artisanaux · Aveyron</p>
+    <h1 class="hero-title">
+      <span class="ht-ferva">FERVA</span>
+      <span class="ht-active">ACTIVE</span>
+    </h1>
+    <p class="hero-tagline">"Ce qui bouillonne en nous depuis toujours."</p>
+    <p class="hero-sub">Boissons fermentées vivantes, jamais pasteurisées.<br>Trois gammes, quinze saveurs, un seul engagement : la pureté.</p>
+    <div class="hero-cta">
+      <a href="#produits" class="btn-primary">Découvrir la gamme</a>
+      <a href="#contact" class="btn-ghost">Dossier investisseur →</a>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <span>Défiler</span>
+    <div class="scroll-bar"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ TICKER ═══════════════════════════════ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span>VIVANT</span><span class="sep">·</span>
+    <span>PUR</span><span class="sep">·</span>
+    <span>AVEYRON</span><span class="sep">·</span>
+    <span>JAMAIS PASTEURISÉ</span><span class="sep">·</span>
+    <span>FERMENTÉ LENTEMENT</span><span class="sep">·</span>
+    <span>PROBIOTIQUES ACTIFS</span><span class="sep">·</span>
+    <span>15 SAVEURS</span><span class="sep">·</span>
+    <span>3 GAMMES</span><span class="sep">·</span>
+    <span>ARTISANAL</span><span class="sep">·</span>
+    <span>ZÉRO ADDITIF</span><span class="sep">·</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════ MARCHÉ ════════════════════════════════ -->
+<section id="marche">
+  <div class="container">
+    <div class="marche-header" data-reveal>
+      <p class="eyebrow">L'opportunité</p>
+      <h2>Un marché en pleine<br><span class="ac">effervescence.</span></h2>
+      <p class="section-sub">Le segment des boissons fermentées vivantes est l'un des plus dynamiques de l'industrie alimentaire. FERVA se positionne au croisement de trois tendances de fond : santé, naturalité et premiumisation.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card" data-reveal>
+        <span class="stat-num">+34<small>%</small></span>
+        <span class="stat-label">Croissance annuelle du marché européen des boissons fermentées</span>
+      </div>
+      <div class="stat-card" data-reveal>
+        <span class="stat-num">5,6<small>Mds€</small></span>
+        <span class="stat-label">Valeur du marché mondial des boissons probiotiques en 2027</span>
+      </div>
+      <div class="stat-card" data-reveal>
+        <span class="stat-num">67<small>%</small></span>
+        <span class="stat-label">Des Français souhaitent davantage de boissons naturelles et fonctionnelles</span>
+      </div>
+      <div class="stat-card" data-reveal>
+        <span class="stat-num">&lt;5</span>
+        <span class="stat-label">Marques françaises positionnées sur le segment premium de la fermentation</span>
+      </div>
+    </div>
+    <div class="marche-pitch" data-reveal>
+      <p>FERVA arrive sur un marché en structuration, avec un produit différencié — jamais pasteurisé, jamais filtré à chaud — et une identité de marque forte, ancrée dans un territoire d'exception. La fenêtre pour s'imposer est ouverte. Maintenant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ PRODUITS ════════════════════════════════ -->
+<section id="produits">
+  <div class="container">
+    <div class="produits-header" data-reveal>
+      <p class="eyebrow">La Gamme Complète</p>
+      <h2>15 saveurs.<br><span class="ac">Une seule conviction.</span></h2>
+    </div>
+    <div class="produits-layout">
+
+      <!-- LEFT: Flavor list -->
+      <div class="fl-list" id="flavorList">
+
+        <div class="fl-group">
+          <span class="fl-group-label">01 — Grande Surface</span>
+          <button class="fl-item active" data-index="0">
+            <span class="fl-dot" style="--c:#D4B84A"></span>
+            <span class="fl-name">Citron Gingembre</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="1">
+            <span class="fl-dot" style="--c:#C0394B"></span>
+            <span class="fl-name">Framboise Hibiscus</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="2">
+            <span class="fl-dot" style="--c:#4E9A6F"></span>
+            <span class="fl-name">Pomme Menthe</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="3">
+            <span class="fl-dot" style="--c:#E8922A"></span>
+            <span class="fl-name">Mangue Passion</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="4">
+            <span class="fl-dot" style="--c:#7DBF5E"></span>
+            <span class="fl-name">Citron Vert Nature</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+        </div>
+
+        <div class="fl-group">
+          <span class="fl-group-label">02 — Boulangeries &amp; Restaurants</span>
+          <button class="fl-item" data-index="5">
+            <span class="fl-dot" style="--c:#D4627A"></span>
+            <span class="fl-name">Fraise Basilic</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="6">
+            <span class="fl-dot" style="--c:#E8A850"></span>
+            <span class="fl-name">Pêche Verveine</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="7">
+            <span class="fl-dot" style="--c:#A8C870"></span>
+            <span class="fl-name">Poire Thym</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="8">
+            <span class="fl-dot" style="--c:#D4A840"></span>
+            <span class="fl-name">Citron Miel</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="9">
+            <span class="fl-dot" style="--c:#E87060"></span>
+            <span class="fl-name">Pamplemousse Romarin</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+        </div>
+
+        <div class="fl-group">
+          <span class="fl-group-label">03 — Grand Format Particuliers</span>
+          <button class="fl-item" data-index="10">
+            <span class="fl-dot" style="--c:#6EC49A"></span>
+            <span class="fl-name">Citron Concombre</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="11">
+            <span class="fl-dot" style="--c:#8B6EC8"></span>
+            <span class="fl-name">Myrtille Lavande</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="12">
+            <span class="fl-dot" style="--c:#D48A20"></span>
+            <span class="fl-name">Gingembre Curcuma</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="13">
+            <span class="fl-dot" style="--c:#4AB870"></span>
+            <span class="fl-name">Ananas Menthe</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="14">
+            <span class="fl-dot" style="--c:#7A3A9A"></span>
+            <span class="fl-name">Cassis Baies de Sureau</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Display -->
+      <div class="fl-display" id="flavorDisplay">
+        <div class="fl-orb" id="flavorOrb"></div>
+        <div class="fl-display-content">
+          <div class="fl-display-meta">
+            <span class="fl-display-type" id="dType">Kéfir</span>
+            <span class="fl-display-gamme" id="dGamme">Grande Surface</span>
+          </div>
+          <h3 class="fl-display-name" id="dName">Citron<br>Gingembre</h3>
+          <p class="fl-display-desc" id="dDesc">Frais et pétillant, avec une touche épicée. Une alliance audacieuse entre l'acidité vive du citron et la chaleur subtile du gingembre frais.</p>
+          <div class="fl-display-formats" id="dFormats">
+            <span>25cl</span><span>33cl</span><span>50cl</span>
+          </div>
+          <div class="fl-display-price" id="dPrice">
+            dès <strong>4,20 €</strong>
+          </div>
+        </div>
+        <div class="fl-progress">
+          <div class="fl-progress-bar" id="flProgressBar"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ GAMME ════════════════════════════════ -->
+<section id="gamme">
+  <div class="container">
+    <div class="gamme-header" data-reveal>
+      <p class="eyebrow">Distribution</p>
+      <h2>Trois canaux.<br><span class="ac">Trois marchés.</span></h2>
+    </div>
+    <div class="gamme-grid">
+
+      <div class="gamme-card" data-reveal>
+        <div class="gamme-num">01</div>
+        <div class="gamme-body">
+          <h3>Grande Surface</h3>
+          <p class="gamme-pitch">Consommation quotidienne. Le rayon boissons santé comme nouveau terrain de jeu. Un positionnement compétitif face aux références importées, avec l'avantage d'une production locale et d'un goût inégalé.</p>
+          <div class="gamme-formats">
+            <span>25cl</span><span>33cl</span><span>50cl</span>
+          </div>
+          <ul class="gamme-flavors">
+            <li><span style="background:#D4B84A"></span> Citron Gingembre</li>
+            <li><span style="background:#C0394B"></span> Framboise Hibiscus</li>
+            <li><span style="background:#4E9A6F"></span> Pomme Menthe</li>
+            <li><span style="background:#E8922A"></span> Mangue Passion</li>
+            <li><span style="background:#7DBF5E"></span> Citron Vert Nature</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="gamme-card" data-reveal>
+        <div class="gamme-num">02</div>
+        <div class="gamme-body">
+          <h3>Boulangeries &amp; Restaurants</h3>
+          <p class="gamme-pitch">Accords &amp; plaisir. Des saveurs pensées pour sublimer l'expérience culinaire. Une alternative premium aux sodas et aux eaux plates, pour une offre boisson qui fait la différence.</p>
+          <div class="gamme-formats">
+            <span>25cl</span><span>33cl</span><span>50cl</span>
+          </div>
+          <ul class="gamme-flavors">
+            <li><span style="background:#D4627A"></span> Fraise Basilic</li>
+            <li><span style="background:#E8A850"></span> Pêche Verveine</li>
+            <li><span style="background:#A8C870"></span> Poire Thym</li>
+            <li><span style="background:#D4A840"></span> Citron Miel</li>
+            <li><span style="background:#E87060"></span> Pamplemousse Romarin</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="gamme-card" data-reveal>
+        <div class="gamme-num">03</div>
+        <div class="gamme-body">
+          <h3>Grand Format Particuliers</h3>
+          <p class="gamme-pitch">À partager. Le grand format s'impose à table comme une boisson de caractère. Pensé pour les moments de convivialité et les foyers qui font de la santé une priorité au quotidien.</p>
+          <div class="gamme-formats">
+            <span>75cl</span><span>1L</span>
+          </div>
+          <ul class="gamme-flavors">
+            <li><span style="background:#6EC49A"></span> Citron Concombre</li>
+            <li><span style="background:#8B6EC8"></span> Myrtille Lavande</li>
+            <li><span style="background:#D48A20"></span> Gingembre Curcuma</li>
+            <li><span style="background:#4AB870"></span> Ananas Menthe</li>
+            <li><span style="background:#7A3A9A"></span> Cassis Baies de Sureau</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ VALEURS ═══════════════════════════════ -->
+<section id="valeurs">
+  <div class="container">
+    <div class="valeurs-grid">
+      <div class="valeur" data-reveal>
+        <div class="valeur-icon">
+          <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="9" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="11" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="45" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="28" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="45" cy="28" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="40" cy="40" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="40" cy="16" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="40" r="3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <h3>Vivant</h3>
+          <p>Probiotiques actifs, fermentation naturelle lente. Chaque bouteille est un écosystème vivant — jamais pasteurisé, jamais filtré à chaud.</p>
+        </div>
+      </div>
+      <div class="valeur" data-reveal>
+        <div class="valeur-icon">
+          <svg viewBox="0 0 56 56" fill="none"><path d="M28 8C16 8 8 18 8 28C8 38 16 48 28 48C40 48 48 38 48 28C48 18 40 8 28 8Z" stroke="currentColor" stroke-width="1.5"/><path d="M18 28H38M28 18V38" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h3>Pur</h3>
+          <p>Ingrédients simples et traçables, sans compromis. Pas d'additifs, pas de conservateurs, pas de colorants. Que du vrai.</p>
+        </div>
+      </div>
+      <div class="valeur" data-reveal>
+        <div class="valeur-icon">
+          <svg viewBox="0 0 56 56" fill="none"><path d="M14 42C14 32 20 26 28 22C36 26 42 32 42 42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M28 22V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="28" cy="10" r="2" fill="currentColor"/><path d="M8 42H48" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h3>Accessible</h3>
+          <p>La santé ne devrait pas être un luxe. FERVA rend le vivant quotidien — dans les supermarchés, les boulangeries, et à table.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ TERROIR ══════════════════════════════ -->
+<section id="terroir">
+  <div class="container">
+    <div class="terroir-inner" data-reveal>
+      <div class="terroir-text">
+        <p class="eyebrow">Origine</p>
+        <h2>Né en<br><span class="ac">Aveyron.</span></h2>
+        <p>Fermenté lentement dans notre atelier aveyronnais, FERVA puise sa singularité dans un territoire d'exception — ses eaux, ses producteurs, son caractère. Une boisson de terroir, au sens noble du terme.</p>
+        <div class="terroir-tags">
+          <span>100% Artisanal</span>
+          <span>0 Additif</span>
+          <span>Production responsable</span>
+          <span>Bouteilles recyclables</span>
+        </div>
+      </div>
+      <div class="terroir-badge-wrap">
+        <div class="terroir-badge">
+          <div class="tb-ring">
+            <span>FAIT AVEC DU</span>
+            <strong>VIVANT</strong>
+            <span>JAMAIS PASTEURISÉ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PROS ════════════════════════════════ -->
+<section id="pros">
+  <div class="container">
+    <div class="pros-inner">
+      <div class="pros-text" data-reveal>
+        <p class="eyebrow">Espace Professionnel</p>
+        <h2>Vous êtes<br><span class="ac">professionnel ?</span></h2>
+        <p>Restaurateurs, boulangers, cavistes, distributeurs — intégrez FERVA à votre offre et proposez à vos clients une alternative vivante, raffinée et différenciante.</p>
+        <ul class="pros-benefits">
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Tarifs professionnels dégressifs dès 6 unités</span>
+          </li>
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Accompagnement et formation produit inclus</span>
+          </li>
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Livraison directe en circuit court depuis l'Aveyron</span>
+          </li>
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Matériel de communication et fiches produit fournis</span>
+          </li>
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Commande personnalisée selon votre clientèle</span>
+          </li>
+        </ul>
+      </div>
+      <div class="pros-form-wrap" data-reveal>
+        <form class="pros-form" id="prosForm">
+          <h3>Prendre contact</h3>
+          <div class="form-row">
+            <div class="fg">
+              <label for="p-nom">Nom</label>
+              <input type="text" id="p-nom" placeholder="Dupont" required>
+            </div>
+            <div class="fg">
+              <label for="p-societe">Établissement</label>
+              <input type="text" id="p-societe" placeholder="Boulangerie Martin" required>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="p-email">Email professionnel</label>
+            <input type="email" id="p-email" placeholder="contact@etablissement.fr" required>
+          </div>
+          <div class="fg">
+            <label for="p-type">Vous êtes…</label>
+            <select id="p-type">
+              <option value="">Sélectionner votre activité</option>
+              <option>Restaurateur</option>
+              <option>Boulanger / Pâtissier</option>
+              <option>Caviste / Épicerie fine</option>
+              <option>Distributeur / Grossiste</option>
+              <option>Grande surface</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="p-msg">Votre besoin</label>
+            <textarea id="p-msg" rows="3" placeholder="Volume approximatif, fréquence de commande, saveurs souhaitées…"></textarea>
+          </div>
+          <button type="submit" class="btn-primary btn-full">Envoyer la demande</button>
+          <p class="form-legal">Réponse garantie sous 48h ouvrées.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FAQ ══════════════════════════════════ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-header" data-reveal>
+      <p class="eyebrow">Questions fréquentes</p>
+      <h2>Tout savoir sur<br><span class="ac">le vivant.</span></h2>
+    </div>
+    <div class="faq-list" data-reveal>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Qu'est-ce que le kéfir et le kombucha ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Le kéfir est une boisson fermentée à base d'eau ou de lait, obtenue par l'action de cultures bactériennes et de levures. Le kombucha est produit par la fermentation de thé sucré via une souche symbiotique (SCOBY). Les deux sont riches en probiotiques naturels, bénéfiques pour la flore intestinale.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Pourquoi "jamais pasteurisé" est-il important ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>La pasteurisation chauffe le produit à haute température pour éliminer les bactéries — y compris les probiotiques bénéfiques. Chez FERVA, nous ne pasteurisons jamais nos boissons, ce qui préserve l'intégralité des cultures vivantes. C'est ce qui fait de chaque bouteille une boisson réellement vivante et fonctionnelle.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Comment conserver les boissons FERVA ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Les boissons FERVA doivent être conservées au réfrigérateur entre 2°C et 6°C, à l'abri de la lumière directe. Elles se conservent plusieurs semaines. Une fois ouverte, une bouteille se consomme dans les 48h. Il est normal d'observer une légère effervescence naturelle à l'ouverture — c'est le signe de la vivacité du produit.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>FERVA convient-il à tous, y compris les enfants ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>FERVA est conçu pour tous les adultes en bonne santé. Pour les enfants, nous recommandons de consulter un médecin avant introduction, notamment pour le kombucha (légèrement fermenté). Le kéfir d'eau est en revanche traditionnellement consommé en famille. Nos boissons sont sans alcool (moins de 0,5% vol.).</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Quels sont les bienfaits des probiotiques FERVA ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Les probiotiques naturellement présents dans FERVA soutiennent l'équilibre du microbiote intestinal, qui joue un rôle clé dans la digestion, l'immunité et le bien-être général. Chaque bouteille contient des milliards de micro-organismes actifs, issus d'une fermentation lente et naturelle — sans ajout de culture industrielle.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Où sera commercialisé FERVA ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>FERVA sera commercialisé via trois canaux : la grande distribution (supermarchés et hypermarchés), les boulangeries et restaurants partenaires, et en direct via notre boutique en ligne. Le lancement est prévu en priorité sur la région Occitanie et Sud de France, avec une expansion nationale en phase deux.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CONTACT ══════════════════════════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-header" data-reveal>
+      <p class="eyebrow">Investisseurs</p>
+      <h2>Rejoindre<br><span class="ac">l'aventure.</span></h2>
+      <p class="section-sub">FERVA cherche ses premiers partenaires pour accompagner le lancement et le déploiement national. Prenez contact pour recevoir notre dossier complet.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-highlights" data-reveal>
+        <div class="ch-item">
+          <strong>Le produit</strong>
+          <p>15 saveurs développées, recettes finalisées. Production artisanale opérationnelle en Aveyron.</p>
+        </div>
+        <div class="ch-item">
+          <strong>Le marché</strong>
+          <p>Segment premium des boissons fermentées, sous-exploité par les marques françaises. Croissance à deux chiffres.</p>
+        </div>
+        <div class="ch-item">
+          <strong>Le modèle</strong>
+          <p>Trois gammes de distribution complémentaires. Prix consommateur entre 4,20 € (33cl) et 8,50 € (75cl).</p>
+        </div>
+        <div class="ch-item">
+          <strong>L'équipe</strong>
+          <p>Passionnés du vivant, ancrés en Aveyron. Un projet né d'une conviction profonde et d'un savoir-faire artisanal authentique.</p>
+        </div>
+      </div>
+      <div class="contact-form-wrap" data-reveal>
+        <form class="contact-form" id="investForm">
+          <div class="form-row">
+            <div class="fg">
+              <label for="i-prenom">Prénom</label>
+              <input type="text" id="i-prenom" placeholder="Marie" required>
+            </div>
+            <div class="fg">
+              <label for="i-nom">Nom</label>
+              <input type="text" id="i-nom" placeholder="Martin" required>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="i-societe">Société / Fonds</label>
+            <input type="text" id="i-societe" placeholder="Ex : Fonds Horizon">
+          </div>
+          <div class="fg">
+            <label for="i-email">Email</label>
+            <input type="email" id="i-email" placeholder="votre@email.fr" required>
+          </div>
+          <div class="fg">
+            <label for="i-tel">Téléphone</label>
+            <input type="tel" id="i-tel" placeholder="+33 6 00 00 00 00">
+          </div>
+          <div class="fg">
+            <label for="i-msg">Message</label>
+            <textarea id="i-msg" rows="4" placeholder="Votre intérêt, votre profil, vos questions…"></textarea>
+          </div>
+          <button type="submit" class="btn-primary btn-full">Recevoir le dossier investisseur</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ FOOTER ════════════════════════════════ -->
+<footer id="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">FERVA</div>
+      <p>La boisson vivante au quotidien.<br>Aveyron, France.</p>
+      <div class="footer-socials">
+        <a href="https://instagram.com/ferva.living" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          @ferva.living
+        </a>
+        <a href="https://ferva.living" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          ferva.living
+        </a>
+      </div>
+    </div>
+    <nav class="footer-nav" aria-label="Navigation pied de page">
+      <h5>Produit</h5>
+      <ul>
+        <li><a href="#produits">Nos saveurs</a></li>
+        <li><a href="#gamme">Nos gammes</a></li>
+        <li><a href="#valeurs">Notre ADN</a></li>
+        <li><a href="#terroir">Notre terroir</a></li>
+      </ul>
+    </nav>
+    <nav class="footer-nav" aria-label="Navigation professionnels">
+      <h5>Professionnels</h5>
+      <ul>
+        <li><a href="#pros">Restaurateurs</a></li>
+        <li><a href="#pros">Boulangers</a></li>
+        <li><a href="#pros">Distributeurs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <nav class="footer-nav" aria-label="Navigation contact">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="#contact">Investisseurs</a></li>
+        <li><a href="mailto:contact@ferva.living">contact@ferva.living</a></li>
+        <li>Aveyron, France</li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 FERVA · <a href="#">Mentions légales</a> · <a href="#">Politique de confidentialité</a></p>
+    <p class="footer-tagline">Ce qui bouillonne en nous depuis toujours.</p>
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+/* ═══════════════ DATA ═══════════════════════════════════════ */
+const FLAVORS = [
+  // Grande Surface
+  { name:'Citron\nGingembre',    desc:'Frais et pétillant, avec une touche épicée. Une alliance audacieuse entre l\'acidité vive du citron et la chaleur subtile du gingembre frais.',               color:'#D4B84A', rgb:'212,184,74',  type:'Kéfir',    gamme:'Grande Surface',              formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  { name:'Framboise\nHibiscus',  desc:'Fruité et floral, légèrement acidulé. La framboise sauvage rencontre les notes florales de l\'hibiscus pour une boisson raffinée et lumineuse.',              color:'#C0394B', rgb:'192,57,75',   type:'Kombucha', gamme:'Grande Surface',              formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  { name:'Pomme\nMenthe',        desc:'Doux et rafraîchissant, finement mentholé. La douceur naturelle de la pomme s\'unit à la fraîcheur herbacée de la menthe pour un équilibre parfait.',         color:'#4E9A6F', rgb:'78,154,111',  type:'Kéfir',    gamme:'Grande Surface',              formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  { name:'Mangue\nPassion',      desc:'Exotique et gourmand, 100% plaisir. Un voyage tropical à chaque gorgée — la mangue mûre et le fruit de la passion créent une symphonie ensoleillée.',         color:'#E8922A', rgb:'232,146,42',  type:'Kombucha', gamme:'Grande Surface',              formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  { name:'Citron Vert\nNature',  desc:'Intense et désaltérant. Le classique réinventé. Le citron vert dans toute sa pureté — vif, minéral, intemporel. La référence de la gamme.',                   color:'#7DBF5E', rgb:'125,191,94',  type:'Kéfir',    gamme:'Grande Surface',              formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  // Boulangeries & Restaurants
+  { name:'Fraise\nBasilic',      desc:'Fraise juteuse et basilic frais, tout en délicatesse. Un accord gastronomique qui sublime aussi bien l\'apéritif que le dessert.',                            color:'#D4627A', rgb:'212,98,122',  type:'Kéfir',    gamme:'Boulangeries & Restaurants',  formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  { name:'Pêche\nVerveine',      desc:'Ronde et douce, avec une note herbacée. La pêche de vigne rencontre la verveine citronnelle — une boisson d\'accord parfaite avec les pâtisseries fines.',   color:'#E8A850', rgb:'232,168,80',  type:'Kombucha', gamme:'Boulangeries & Restaurants',  formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  { name:'Poire\nThym',          desc:'Subtil et aromatique, élégant. La poire Williams et le thym frais composent un duo raffiné, idéal en accord avec les charcuteries et les fromages.',          color:'#A8C870', rgb:'168,200,112', type:'Kéfir',    gamme:'Boulangeries & Restaurants',  formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  { name:'Citron\nMiel',         desc:'Doux et réconfortant, parfait avec les douceurs. Le citron apporte sa vivacité, le miel sa rondeur — une boisson qui accompagne à merveille viennoiseries et desserts.', color:'#D4A840', rgb:'212,168,64', type:'Kombucha', gamme:'Boulangeries & Restaurants',  formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  { name:'Pamplemousse\nRomarin',desc:'Tonique et raffiné, une amertume maîtrisée. Le pamplemousse rose et le romarin méditerranéen — une alliance sophistiquée qui stimule et désaltère.',            color:'#E87060', rgb:'232,112,96',  type:'Kéfir',    gamme:'Boulangeries & Restaurants',  formats:['25cl','33cl','50cl'], price:'dès <strong>4,20 €</strong>' },
+  // Grand Format
+  { name:'Citron\nConcombre',    desc:'Léger et hydratant, parfait à table. Le citron et le concombre — deux végétaux aqueux qui s\'associent pour une boisson d\'une fraîcheur absolue à partager.',color:'#6EC49A', rgb:'110,196,154', type:'Kéfir',    gamme:'Grand Format Particuliers',   formats:['75cl','1L'],           price:'dès <strong>8,50 €</strong>' },
+  { name:'Myrtille\nLavande',    desc:'Floral et fruité, douceur et profondeur. La myrtille sauvage et la lavande de Provence composent un accord unique — à la fois délicat, intense et mémorable.',  color:'#8B6EC8', rgb:'139,110,200', type:'Kombucha', gamme:'Grand Format Particuliers',   formats:['75cl','1L'],           price:'dès <strong>8,50 €</strong>' },
+  { name:'Gingembre\nCurcuma',   desc:'Épicé et revigorant, effet naturel. Le gingembre et le curcuma — deux racines aux vertus reconnues — forment une boisson chaleureuse et dynamisante.',         color:'#D48A20', rgb:'212,138,32',  type:'Kéfir',    gamme:'Grand Format Particuliers',   formats:['75cl','1L'],           price:'dès <strong>8,50 €</strong>' },
+  { name:'Ananas\nMenthe',       desc:'Tropical et rafraîchissant, ensoleillé. L\'ananas Victoria apporte sa douceur exotique, la menthe sa fraîcheur — une boisson de table lumineuse et conviviale.',color:'#4AB870', rgb:'74,184,112',  type:'Kombucha', gamme:'Grand Format Particuliers',   formats:['75cl','1L'],           price:'dès <strong>8,50 €</strong>' },
+  { name:'Cassis Baies\nde Sureau',desc:'Profond et gourmand, riche en antioxydants. Le cassis noir et les baies de sureau de nos prairies — une boisson intense, veloutée, aux vertus précieuses.',  color:'#7A3A9A', rgb:'122,58,154',  type:'Kombucha', gamme:'Grand Format Particuliers',   formats:['75cl','1L'],           price:'dès <strong>8,50 €</strong>' },
+];
+
+/* ═══════════════ STATE ══════════════════════════════════════ */
+let activeIndex  = 0;
+let cycleTimer   = null;
+let cycleRunning = false;
+let progressVal  = 0;
+let progressRaf  = null;
+const CYCLE_MS   = 4000;
+
+/* ═══════════════ DOM REFS ═══════════════════════════════════ */
+const root       = document.documentElement;
+const navEl      = document.getElementById('nav');
+const navLinks   = document.getElementById('navLinks');
+const burger     = document.getElementById('burger');
+const navPulse   = document.getElementById('navPulse');
+const flItems    = Array.from(document.querySelectorAll('.fl-item'));
+const dName      = document.getElementById('dName');
+const dDesc      = document.getElementById('dDesc');
+const dType      = document.getElementById('dType');
+const dGamme     = document.getElementById('dGamme');
+const dFormats   = document.getElementById('dFormats');
+const dPrice     = document.getElementById('dPrice');
+const flOrb      = document.getElementById('flavorOrb');
+const progressBar= document.getElementById('flProgressBar');
+const ticker     = document.getElementById('tickerTrack');
+const faqItems   = document.querySelectorAll('.faq-item');
+
+/* ═══════════════ ACCENT COLOR ══════════════════════════════ */
+function setAccent(color, rgb) {
+  root.style.setProperty('--accent', color);
+  root.style.setProperty('--accent-rgb', rgb);
+}
+
+/* ═══════════════ FLAVOR PICKER ═════════════════════════════ */
+function setFlavor(index, auto) {
+  const f = FLAVORS[index];
+  activeIndex = index;
+
+  // Accent color
+  setAccent(f.color, f.rgb);
+
+  // Nav pulse
+  if (navPulse) navPulse.style.background = f.color;
+
+  // Orb
+  if (flOrb) {
+    flOrb.style.background = `radial-gradient(circle, ${f.color}, transparent 65%)`;
+  }
+
+  // Display — fade trick
+  if (dName) {
+    dName.style.opacity = '0';
+    setTimeout(() => {
+      dName.innerHTML  = f.name.replace('\n', '<br>');
+      dName.style.opacity = '1';
+      dName.style.transition = 'opacity 0.3s';
+    }, 150);
+  }
+  if (dDesc)    dDesc.textContent    = f.desc;
+  if (dType)    dType.textContent    = f.type;
+  if (dGamme)   dGamme.textContent   = f.gamme;
+  if (dPrice)   dPrice.innerHTML     = `dès ${f.price}`;
+
+  if (dFormats) {
+    dFormats.innerHTML = f.formats.map(s => `<span>${s}</span>`).join('');
+  }
+
+  // Active state in list
+  flItems.forEach((el, i) => el.classList.toggle('active', i === index));
+
+  // Scroll item into view (within the list)
+  if (flItems[index]) {
+    flItems[index].scrollIntoView({ block:'nearest', behavior:'smooth' });
+  }
+
+  // Progress bar reset
+  resetProgress();
+}
+
+/* ═══════════════ AUTO-CYCLE ════════════════════════════════ */
+function resetProgress() {
+  cancelAnimationFrame(progressRaf);
+  progressVal = 0;
+  if (progressBar) progressBar.style.width = '0%';
+  if (cycleRunning) animateProgress();
+}
+
+function animateProgress() {
+  const start = performance.now();
+  function step(now) {
+    progressVal = Math.min(((now - start) / CYCLE_MS) * 100, 100);
+    if (progressBar) progressBar.style.width = progressVal + '%';
+    if (progressVal < 100) {
+      progressRaf = requestAnimationFrame(step);
+    } else {
+      const next = (activeIndex + 1) % FLAVORS.length;
+      setFlavor(next, true);
+    }
+  }
+  progressRaf = requestAnimationFrame(step);
+}
+
+function startCycle() {
+  if (cycleRunning) return;
+  cycleRunning = true;
+  animateProgress();
+}
+
+function stopCycle() {
+  cycleRunning = false;
+  cancelAnimationFrame(progressRaf);
+  if (progressBar) progressBar.style.width = '0%';
+}
+
+// Flavor list click
+flItems.forEach((btn, i) => {
+  btn.addEventListener('click', () => {
+    stopCycle();
+    setFlavor(i, false);
+  });
+});
+
+// Pause on hover display, resume on leave
+const flDisplay = document.getElementById('flavorDisplay');
+if (flDisplay) {
+  flDisplay.addEventListener('mouseenter', stopCycle);
+  flDisplay.addEventListener('mouseleave', startCycle);
+  const flList = document.getElementById('flavorList');
+  if (flList) {
+    flList.addEventListener('mouseenter', stopCycle);
+    flList.addEventListener('mouseleave', startCycle);
+  }
+}
+
+/* ═══════════════ NAV ════════════════════════════════════════ */
+const onScroll = () => navEl.classList.toggle('scrolled', window.scrollY > 60);
+window.addEventListener('scroll', onScroll, { passive:true });
+onScroll();
+
+burger.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  burger.classList.toggle('open', open);
+  burger.setAttribute('aria-expanded', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ═══════════════ TICKER DUPLICATE ══════════════════════════ */
+if (ticker) {
+  ticker.innerHTML += ticker.innerHTML;
+}
+
+/* ═══════════════ FAQ ACCORDION ═════════════════════════════ */
+faqItems.forEach(item => {
+  const btn = item.querySelector('.faq-q');
+  btn.addEventListener('click', () => {
+    const wasOpen = item.classList.contains('open');
+    faqItems.forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+/* ═══════════════ FORMS ══════════════════════════════════════ */
+function handleForm(formId) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+
+  let msg = form.nextElementSibling;
+  if (!msg || !msg.classList.contains('form-success-msg')) {
+    msg = document.createElement('p');
+    msg.className = 'form-success-msg';
+    msg.textContent = 'Message envoyé ! Nous revenons vers vous sous 48h.';
+    form.after(msg);
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours…';
+    setTimeout(() => {
+      form.reset();
+      btn.disabled = false;
+      btn.textContent = btn.dataset.label || 'Envoyer';
+      msg.classList.add('show');
+      setTimeout(() => msg.classList.remove('show'), 6000);
+    }, 1000);
+  });
+}
+
+handleForm('prosForm');
+handleForm('investForm');
+
+// Store original button labels
+document.querySelectorAll('button[type=submit]').forEach(btn => {
+  btn.dataset.label = btn.textContent.trim();
+});
+
+/* ═══════════════ SCROLL REVEAL ═════════════════════════════ */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const delay = entry.target.dataset.delay || (i * 80);
+      setTimeout(() => entry.target.classList.add('revealed'), Number(delay));
+      revealObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('[data-reveal]').forEach((el, i) => {
+  el.dataset.delay = el.dataset.delay || String(i * 60);
+  revealObs.observe(el);
+});
+
+/* ═══════════════ SMOOTH ANCHORS ════════════════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - navEl.offsetHeight - 16;
+      window.scrollTo({ top, behavior:'smooth' });
+    }
+  });
+});
+
+/* ═══════════════ INIT ═══════════════════════════════════════ */
+setFlavor(0, false);
+startCycle();
+
+</script>
+</body>
+</html>

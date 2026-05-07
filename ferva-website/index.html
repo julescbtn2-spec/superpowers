@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERVA — La Boisson Vivante</title>
+  <meta name="description" content="Kéfir et Kombucha artisanaux, Aveyron. 15 saveurs, 3 gammes. Jamais pasteurisé.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- GRAIN -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════ NAV ══════════════════════════════ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      FERVA
+      <span class="nav-pulse" id="navPulse"></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#produits">Le Produit</a></li>
+      <li><a href="#gamme">Gammes</a></li>
+      <li><a href="#pros">Pour les Pros</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="btn-nav">Investir →</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+<section id="hero">
+  <div class="hero-orbs" aria-hidden="true">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+  </div>
+  <div class="hero-content">
+    <p class="eyebrow">Kéfir &amp; Kombucha Artisanaux · Aveyron</p>
+    <h1 class="hero-title">
+      <span class="ht-ferva">FERVA</span>
+      <span class="ht-active">ACTIVE</span>
+    </h1>
+    <p class="hero-tagline">"Ce qui bouillonne en nous depuis toujours."</p>
+    <p class="hero-sub">Boissons fermentées vivantes, jamais pasteurisées.<br>Trois gammes, quinze saveurs, un seul engagement : la pureté.</p>
+    <div class="hero-cta">
+      <a href="#produits" class="btn-primary">Découvrir la gamme</a>
+      <a href="#contact" class="btn-ghost">Dossier investisseur →</a>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <span>Défiler</span>
+    <div class="scroll-bar"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ TICKER ═══════════════════════════════ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span>VIVANT</span><span class="sep">·</span>
+    <span>PUR</span><span class="sep">·</span>
+    <span>AVEYRON</span><span class="sep">·</span>
+    <span>JAMAIS PASTEURISÉ</span><span class="sep">·</span>
+    <span>FERMENTÉ LENTEMENT</span><span class="sep">·</span>
+    <span>PROBIOTIQUES ACTIFS</span><span class="sep">·</span>
+    <span>15 SAVEURS</span><span class="sep">·</span>
+    <span>3 GAMMES</span><span class="sep">·</span>
+    <span>ARTISANAL</span><span class="sep">·</span>
+    <span>ZÉRO ADDITIF</span><span class="sep">·</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════ MARCHÉ ════════════════════════════════ -->
+<section id="marche">
+  <div class="container">
+    <div class="marche-header" data-reveal>
+      <p class="eyebrow">L'opportunité</p>
+      <h2>Un marché en pleine<br><span class="ac">effervescence.</span></h2>
+      <p class="section-sub">Le segment des boissons fermentées vivantes est l'un des plus dynamiques de l'industrie alimentaire. FERVA se positionne au croisement de trois tendances de fond : santé, naturalité et premiumisation.</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card" data-reveal>
+        <span class="stat-num">+34<small>%</small></span>
+        <span class="stat-label">Croissance annuelle du marché européen des boissons fermentées</span>
+      </div>
+      <div class="stat-card" data-reveal>
+        <span class="stat-num">5,6<small>Mds€</small></span>
+        <span class="stat-label">Valeur du marché mondial des boissons probiotiques en 2027</span>
+      </div>
+      <div class="stat-card" data-reveal>
+        <span class="stat-num">67<small>%</small></span>
+        <span class="stat-label">Des Français souhaitent davantage de boissons naturelles et fonctionnelles</span>
+      </div>
+      <div class="stat-card" data-reveal>
+        <span class="stat-num">&lt;5</span>
+        <span class="stat-label">Marques françaises positionnées sur le segment premium de la fermentation</span>
+      </div>
+    </div>
+    <div class="marche-pitch" data-reveal>
+      <p>FERVA arrive sur un marché en structuration, avec un produit différencié — jamais pasteurisé, jamais filtré à chaud — et une identité de marque forte, ancrée dans un territoire d'exception. La fenêtre pour s'imposer est ouverte. Maintenant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ PRODUITS ════════════════════════════════ -->
+<section id="produits">
+  <div class="container">
+    <div class="produits-header" data-reveal>
+      <p class="eyebrow">La Gamme Complète</p>
+      <h2>15 saveurs.<br><span class="ac">Une seule conviction.</span></h2>
+    </div>
+    <div class="produits-layout">
+
+      <!-- LEFT: Flavor list -->
+      <div class="fl-list" id="flavorList">
+
+        <div class="fl-group">
+          <span class="fl-group-label">01 — Grande Surface</span>
+          <button class="fl-item active" data-index="0">
+            <span class="fl-dot" style="--c:#D4B84A"></span>
+            <span class="fl-name">Citron Gingembre</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="1">
+            <span class="fl-dot" style="--c:#C0394B"></span>
+            <span class="fl-name">Framboise Hibiscus</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="2">
+            <span class="fl-dot" style="--c:#4E9A6F"></span>
+            <span class="fl-name">Pomme Menthe</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="3">
+            <span class="fl-dot" style="--c:#E8922A"></span>
+            <span class="fl-name">Mangue Passion</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="4">
+            <span class="fl-dot" style="--c:#7DBF5E"></span>
+            <span class="fl-name">Citron Vert Nature</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+        </div>
+
+        <div class="fl-group">
+          <span class="fl-group-label">02 — Boulangeries &amp; Restaurants</span>
+          <button class="fl-item" data-index="5">
+            <span class="fl-dot" style="--c:#D4627A"></span>
+            <span class="fl-name">Fraise Basilic</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="6">
+            <span class="fl-dot" style="--c:#E8A850"></span>
+            <span class="fl-name">Pêche Verveine</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="7">
+            <span class="fl-dot" style="--c:#A8C870"></span>
+            <span class="fl-name">Poire Thym</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="8">
+            <span class="fl-dot" style="--c:#D4A840"></span>
+            <span class="fl-name">Citron Miel</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="9">
+            <span class="fl-dot" style="--c:#E87060"></span>
+            <span class="fl-name">Pamplemousse Romarin</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+        </div>
+
+        <div class="fl-group">
+          <span class="fl-group-label">03 — Grand Format Particuliers</span>
+          <button class="fl-item" data-index="10">
+            <span class="fl-dot" style="--c:#6EC49A"></span>
+            <span class="fl-name">Citron Concombre</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="11">
+            <span class="fl-dot" style="--c:#8B6EC8"></span>
+            <span class="fl-name">Myrtille Lavande</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="12">
+            <span class="fl-dot" style="--c:#D48A20"></span>
+            <span class="fl-name">Gingembre Curcuma</span>
+            <span class="fl-badge">Kéfir</span>
+          </button>
+          <button class="fl-item" data-index="13">
+            <span class="fl-dot" style="--c:#4AB870"></span>
+            <span class="fl-name">Ananas Menthe</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+          <button class="fl-item" data-index="14">
+            <span class="fl-dot" style="--c:#7A3A9A"></span>
+            <span class="fl-name">Cassis Baies de Sureau</span>
+            <span class="fl-badge">Kombucha</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Display -->
+      <div class="fl-display" id="flavorDisplay">
+        <div class="fl-orb" id="flavorOrb"></div>
+        <div class="fl-display-content">
+          <div class="fl-display-meta">
+            <span class="fl-display-type" id="dType">Kéfir</span>
+            <span class="fl-display-gamme" id="dGamme">Grande Surface</span>
+          </div>
+          <h3 class="fl-display-name" id="dName">Citron<br>Gingembre</h3>
+          <p class="fl-display-desc" id="dDesc">Frais et pétillant, avec une touche épicée. Une alliance audacieuse entre l'acidité vive du citron et la chaleur subtile du gingembre frais.</p>
+          <div class="fl-display-formats" id="dFormats">
+            <span>25cl</span><span>33cl</span><span>50cl</span>
+          </div>
+          <div class="fl-display-price" id="dPrice">
+            dès <strong>4,20 €</strong>
+          </div>
+        </div>
+        <div class="fl-progress">
+          <div class="fl-progress-bar" id="flProgressBar"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ GAMME ════════════════════════════════ -->
+<section id="gamme">
+  <div class="container">
+    <div class="gamme-header" data-reveal>
+      <p class="eyebrow">Distribution</p>
+      <h2>Trois canaux.<br><span class="ac">Trois marchés.</span></h2>
+    </div>
+    <div class="gamme-grid">
+
+      <div class="gamme-card" data-reveal>
+        <div class="gamme-num">01</div>
+        <div class="gamme-body">
+          <h3>Grande Surface</h3>
+          <p class="gamme-pitch">Consommation quotidienne. Le rayon boissons santé comme nouveau terrain de jeu. Un positionnement compétitif face aux références importées, avec l'avantage d'une production locale et d'un goût inégalé.</p>
+          <div class="gamme-formats">
+            <span>25cl</span><span>33cl</span><span>50cl</span>
+          </div>
+          <ul class="gamme-flavors">
+            <li><span style="background:#D4B84A"></span> Citron Gingembre</li>
+            <li><span style="background:#C0394B"></span> Framboise Hibiscus</li>
+            <li><span style="background:#4E9A6F"></span> Pomme Menthe</li>
+            <li><span style="background:#E8922A"></span> Mangue Passion</li>
+            <li><span style="background:#7DBF5E"></span> Citron Vert Nature</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="gamme-card" data-reveal>
+        <div class="gamme-num">02</div>
+        <div class="gamme-body">
+          <h3>Boulangeries &amp; Restaurants</h3>
+          <p class="gamme-pitch">Accords &amp; plaisir. Des saveurs pensées pour sublimer l'expérience culinaire. Une alternative premium aux sodas et aux eaux plates, pour une offre boisson qui fait la différence.</p>
+          <div class="gamme-formats">
+            <span>25cl</span><span>33cl</span><span>50cl</span>
+          </div>
+          <ul class="gamme-flavors">
+            <li><span style="background:#D4627A"></span> Fraise Basilic</li>
+            <li><span style="background:#E8A850"></span> Pêche Verveine</li>
+            <li><span style="background:#A8C870"></span> Poire Thym</li>
+            <li><span style="background:#D4A840"></span> Citron Miel</li>
+            <li><span style="background:#E87060"></span> Pamplemousse Romarin</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="gamme-card" data-reveal>
+        <div class="gamme-num">03</div>
+        <div class="gamme-body">
+          <h3>Grand Format Particuliers</h3>
+          <p class="gamme-pitch">À partager. Le grand format s'impose à table comme une boisson de caractère. Pensé pour les moments de convivialité et les foyers qui font de la santé une priorité au quotidien.</p>
+          <div class="gamme-formats">
+            <span>75cl</span><span>1L</span>
+          </div>
+          <ul class="gamme-flavors">
+            <li><span style="background:#6EC49A"></span> Citron Concombre</li>
+            <li><span style="background:#8B6EC8"></span> Myrtille Lavande</li>
+            <li><span style="background:#D48A20"></span> Gingembre Curcuma</li>
+            <li><span style="background:#4AB870"></span> Ananas Menthe</li>
+            <li><span style="background:#7A3A9A"></span> Cassis Baies de Sureau</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ VALEURS ═══════════════════════════════ -->
+<section id="valeurs">
+  <div class="container">
+    <div class="valeurs-grid">
+      <div class="valeur" data-reveal>
+        <div class="valeur-icon">
+          <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="9" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="11" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="28" cy="45" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="28" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="45" cy="28" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="40" cy="40" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="40" cy="16" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="40" r="3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <h3>Vivant</h3>
+          <p>Probiotiques actifs, fermentation naturelle lente. Chaque bouteille est un écosystème vivant — jamais pasteurisé, jamais filtré à chaud.</p>
+        </div>
+      </div>
+      <div class="valeur" data-reveal>
+        <div class="valeur-icon">
+          <svg viewBox="0 0 56 56" fill="none"><path d="M28 8C16 8 8 18 8 28C8 38 16 48 28 48C40 48 48 38 48 28C48 18 40 8 28 8Z" stroke="currentColor" stroke-width="1.5"/><path d="M18 28H38M28 18V38" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h3>Pur</h3>
+          <p>Ingrédients simples et traçables, sans compromis. Pas d'additifs, pas de conservateurs, pas de colorants. Que du vrai.</p>
+        </div>
+      </div>
+      <div class="valeur" data-reveal>
+        <div class="valeur-icon">
+          <svg viewBox="0 0 56 56" fill="none"><path d="M14 42C14 32 20 26 28 22C36 26 42 32 42 42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M28 22V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="28" cy="10" r="2" fill="currentColor"/><path d="M8 42H48" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h3>Accessible</h3>
+          <p>La santé ne devrait pas être un luxe. FERVA rend le vivant quotidien — dans les supermarchés, les boulangeries, et à table.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ TERROIR ══════════════════════════════ -->
+<section id="terroir">
+  <div class="container">
+    <div class="terroir-inner" data-reveal>
+      <div class="terroir-text">
+        <p class="eyebrow">Origine</p>
+        <h2>Né en<br><span class="ac">Aveyron.</span></h2>
+        <p>Fermenté lentement dans notre atelier aveyronnais, FERVA puise sa singularité dans un territoire d'exception — ses eaux, ses producteurs, son caractère. Une boisson de terroir, au sens noble du terme.</p>
+        <div class="terroir-tags">
+          <span>100% Artisanal</span>
+          <span>0 Additif</span>
+          <span>Production responsable</span>
+          <span>Bouteilles recyclables</span>
+        </div>
+      </div>
+      <div class="terroir-badge-wrap">
+        <div class="terroir-badge">
+          <div class="tb-ring">
+            <span>FAIT AVEC DU</span>
+            <strong>VIVANT</strong>
+            <span>JAMAIS PASTEURISÉ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PROS ════════════════════════════════ -->
+<section id="pros">
+  <div class="container">
+    <div class="pros-inner">
+      <div class="pros-text" data-reveal>
+        <p class="eyebrow">Espace Professionnel</p>
+        <h2>Vous êtes<br><span class="ac">professionnel ?</span></h2>
+        <p>Restaurateurs, boulangers, cavistes, distributeurs — intégrez FERVA à votre offre et proposez à vos clients une alternative vivante, raffinée et différenciante.</p>
+        <ul class="pros-benefits">
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Tarifs professionnels dégressifs dès 6 unités</span>
+          </li>
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Accompagnement et formation produit inclus</span>
+          </li>
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Livraison directe en circuit court depuis l'Aveyron</span>
+          </li>
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Matériel de communication et fiches produit fournis</span>
+          </li>
+          <li>
+            <span class="pros-icon">→</span>
+            <span>Commande personnalisée selon votre clientèle</span>
+          </li>
+        </ul>
+      </div>
+      <div class="pros-form-wrap" data-reveal>
+        <form class="pros-form" id="prosForm">
+          <h3>Prendre contact</h3>
+          <div class="form-row">
+            <div class="fg">
+              <label for="p-nom">Nom</label>
+              <input type="text" id="p-nom" placeholder="Dupont" required>
+            </div>
+            <div class="fg">
+              <label for="p-societe">Établissement</label>
+              <input type="text" id="p-societe" placeholder="Boulangerie Martin" required>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="p-email">Email professionnel</label>
+            <input type="email" id="p-email" placeholder="contact@etablissement.fr" required>
+          </div>
+          <div class="fg">
+            <label for="p-type">Vous êtes…</label>
+            <select id="p-type">
+              <option value="">Sélectionner votre activité</option>
+              <option>Restaurateur</option>
+              <option>Boulanger / Pâtissier</option>
+              <option>Caviste / Épicerie fine</option>
+              <option>Distributeur / Grossiste</option>
+              <option>Grande surface</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="p-msg">Votre besoin</label>
+            <textarea id="p-msg" rows="3" placeholder="Volume approximatif, fréquence de commande, saveurs souhaitées…"></textarea>
+          </div>
+          <button type="submit" class="btn-primary btn-full">Envoyer la demande</button>
+          <p class="form-legal">Réponse garantie sous 48h ouvrées.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FAQ ══════════════════════════════════ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-header" data-reveal>
+      <p class="eyebrow">Questions fréquentes</p>
+      <h2>Tout savoir sur<br><span class="ac">le vivant.</span></h2>
+    </div>
+    <div class="faq-list" data-reveal>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Qu'est-ce que le kéfir et le kombucha ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Le kéfir est une boisson fermentée à base d'eau ou de lait, obtenue par l'action de cultures bactériennes et de levures. Le kombucha est produit par la fermentation de thé sucré via une souche symbiotique (SCOBY). Les deux sont riches en probiotiques naturels, bénéfiques pour la flore intestinale.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Pourquoi "jamais pasteurisé" est-il important ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>La pasteurisation chauffe le produit à haute température pour éliminer les bactéries — y compris les probiotiques bénéfiques. Chez FERVA, nous ne pasteurisons jamais nos boissons, ce qui préserve l'intégralité des cultures vivantes. C'est ce qui fait de chaque bouteille une boisson réellement vivante et fonctionnelle.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Comment conserver les boissons FERVA ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Les boissons FERVA doivent être conservées au réfrigérateur entre 2°C et 6°C, à l'abri de la lumière directe. Elles se conservent plusieurs semaines. Une fois ouverte, une bouteille se consomme dans les 48h. Il est normal d'observer une légère effervescence naturelle à l'ouverture — c'est le signe de la vivacité du produit.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>FERVA convient-il à tous, y compris les enfants ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>FERVA est conçu pour tous les adultes en bonne santé. Pour les enfants, nous recommandons de consulter un médecin avant introduction, notamment pour le kombucha (légèrement fermenté). Le kéfir d'eau est en revanche traditionnellement consommé en famille. Nos boissons sont sans alcool (moins de 0,5% vol.).</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Quels sont les bienfaits des probiotiques FERVA ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>Les probiotiques naturellement présents dans FERVA soutiennent l'équilibre du microbiote intestinal, qui joue un rôle clé dans la digestion, l'immunité et le bien-être général. Chaque bouteille contient des milliards de micro-organismes actifs, issus d'une fermentation lente et naturelle — sans ajout de culture industrielle.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">
+          <span>Où sera commercialisé FERVA ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">
+          <p>FERVA sera commercialisé via trois canaux : la grande distribution (supermarchés et hypermarchés), les boulangeries et restaurants partenaires, et en direct via notre boutique en ligne. Le lancement est prévu en priorité sur la région Occitanie et Sud de France, avec une expansion nationale en phase deux.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CONTACT ══════════════════════════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-header" data-reveal>
+      <p class="eyebrow">Investisseurs</p>
+      <h2>Rejoindre<br><span class="ac">l'aventure.</span></h2>
+      <p class="section-sub">FERVA cherche ses premiers partenaires pour accompagner le lancement et le déploiement national. Prenez contact pour recevoir notre dossier complet.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-highlights" data-reveal>
+        <div class="ch-item">
+          <strong>Le produit</strong>
+          <p>15 saveurs développées, recettes finalisées. Production artisanale opérationnelle en Aveyron.</p>
+        </div>
+        <div class="ch-item">
+          <strong>Le marché</strong>
+          <p>Segment premium des boissons fermentées, sous-exploité par les marques françaises. Croissance à deux chiffres.</p>
+        </div>
+        <div class="ch-item">
+          <strong>Le modèle</strong>
+          <p>Trois gammes de distribution complémentaires. Prix consommateur entre 4,20 € (33cl) et 8,50 € (75cl).</p>
+        </div>
+        <div class="ch-item">
+          <strong>L'équipe</strong>
+          <p>Passionnés du vivant, ancrés en Aveyron. Un projet né d'une conviction profonde et d'un savoir-faire artisanal authentique.</p>
+        </div>
+      </div>
+      <div class="contact-form-wrap" data-reveal>
+        <form class="contact-form" id="investForm">
+          <div class="form-row">
+            <div class="fg">
+              <label for="i-prenom">Prénom</label>
+              <input type="text" id="i-prenom" placeholder="Marie" required>
+            </div>
+            <div class="fg">
+              <label for="i-nom">Nom</label>
+              <input type="text" id="i-nom" placeholder="Martin" required>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="i-societe">Société / Fonds</label>
+            <input type="text" id="i-societe" placeholder="Ex : Fonds Horizon">
+          </div>
+          <div class="fg">
+            <label for="i-email">Email</label>
+            <input type="email" id="i-email" placeholder="votre@email.fr" required>
+          </div>
+          <div class="fg">
+            <label for="i-tel">Téléphone</label>
+            <input type="tel" id="i-tel" placeholder="+33 6 00 00 00 00">
+          </div>
+          <div class="fg">
+            <label for="i-msg">Message</label>
+            <textarea id="i-msg" rows="4" placeholder="Votre intérêt, votre profil, vos questions…"></textarea>
+          </div>
+          <button type="submit" class="btn-primary btn-full">Recevoir le dossier investisseur</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ FOOTER ════════════════════════════════ -->
+<footer id="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">FERVA</div>
+      <p>La boisson vivante au quotidien.<br>Aveyron, France.</p>
+      <div class="footer-socials">
+        <a href="https://instagram.com/ferva.living" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          @ferva.living
+        </a>
+        <a href="https://ferva.living" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          ferva.living
+        </a>
+      </div>
+    </div>
+    <nav class="footer-nav" aria-label="Navigation pied de page">
+      <h5>Produit</h5>
+      <ul>
+        <li><a href="#produits">Nos saveurs</a></li>
+        <li><a href="#gamme">Nos gammes</a></li>
+        <li><a href="#valeurs">Notre ADN</a></li>
+        <li><a href="#terroir">Notre terroir</a></li>
+      </ul>
+    </nav>
+    <nav class="footer-nav" aria-label="Navigation professionnels">
+      <h5>Professionnels</h5>
+      <ul>
+        <li><a href="#pros">Restaurateurs</a></li>
+        <li><a href="#pros">Boulangers</a></li>
+        <li><a href="#pros">Distributeurs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <nav class="footer-nav" aria-label="Navigation contact">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="#contact">Investisseurs</a></li>
+        <li><a href="mailto:contact@ferva.living">contact@ferva.living</a></li>
+        <li>Aveyron, France</li>
+      </ul>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 FERVA · <a href="#">Mentions légales</a> · <a href="#">Politique de confidentialité</a></p>
+    <p class="footer-tagline">Ce qui bouillonne en nous depuis toujours.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
